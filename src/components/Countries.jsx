@@ -22,32 +22,24 @@ const Countries = () => {
     dispatch(initializeCountries());
   }, [dispatch]);
 
-  // We will be replacing this with data from our API.
-  const country = {
-    name: {
-      common: "Example Country",
-    },
-  };
-
-  return (
-    <Container fluid>
-      <Row>
-        <Col className="mt-5 d-flex justify-content-center">
-          <Form>
-            <Form.Control
-              style={{ width: "18rem" }}
-              type="search"
-              className="me-2 "
-              placeholder="Search for countries"
-              aria-label="Search"
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </Form>
-        </Col>
-      </Row>
-      {loading ? (
-        <Spinner animation="border" />
-      ) : (
+  if (loading) return <Spinner animation="border" />;
+  else
+    return (
+      <Container fluid>
+        <Row>
+          <Col className="mt-5 d-flex justify-content-center">
+            <Form>
+              <Form.Control
+                style={{ width: "18rem" }}
+                type="search"
+                className="me-2 "
+                placeholder="Search for countries"
+                aria-label="Search"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </Form>
+          </Col>
+        </Row>
         <Row xs={2} md={3} lg={4} className=" g-3">
           {countriesList
             .filter(
@@ -109,9 +101,8 @@ const Countries = () => {
               </Col>
             ))}
         </Row>
-      )}
-    </Container>
-  );
+      </Container>
+    );
 };
 
 export default Countries;
