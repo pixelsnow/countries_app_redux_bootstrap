@@ -10,6 +10,7 @@ const favouritesSlice = createSlice({
     addFavourite(state, action) {
       state.favourites = [...state.favourites, action.payload];
       localStorage.setItem("Favourites", JSON.stringify(state.favourites));
+      console.log(state.favourites);
     },
     clearFavourites(state, action) {
       state.favourites = [];
