@@ -32,6 +32,11 @@ const Favourites = () => {
     setFavouritesList(localStorage.getItem("Favourites"));
   }, [dispatch]);
 
+  const handleClearFavourites = () => {
+    dispatch(clearFavourites());
+    setFavouritesList([]);
+  };
+
   if (loading) return <Spinner animation="border" />;
   else
     return (
@@ -51,9 +56,7 @@ const Favourites = () => {
           </Col>
         </Row>
         <Row xs={2} md={3} lg={4} className=" g-3">
-          <Button onClick={() => dispatch(clearFavourites())}>
-            Clear favourites
-          </Button>
+          <Button onClick={handleClearFavourites}>Clear favourites</Button>
         </Row>
         <Row xs={2} md={3} lg={4} className=" g-3">
           {countriesList
