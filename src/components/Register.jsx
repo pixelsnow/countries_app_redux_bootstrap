@@ -23,7 +23,7 @@ const Register = () => {
     if (loading) return;
     // If there is a user, we just navigate to home page
     if (user) navigate("/countries");
-    console.log(error);
+    if (error) console.log(error);
   }, [user, loading, error, navigate]);
 
   return (
@@ -48,7 +48,7 @@ const Register = () => {
       />
       <Button onClick={register}>Register</Button>
       <div>
-        Acready have an account? <Link to="/login">Login</Link> now.
+        Already have an account? <Link to="/login">Login</Link> now.
       </div>
     </div>
   );

@@ -11,11 +11,17 @@ const favouritesSlice = createSlice({
     favourites: favourites,
   },
   reducers: {
-    getFavourites(state, action) {},
+    getFavourites(state) {},
     addFavourite(state, action) {
       state.favourites = [...state.favourites, action.payload];
       localStorage.setItem("Favourites", JSON.stringify(state.favourites));
       console.log(state.favourites);
+    },
+    removeFavourite(state, action) {
+      state.favourites = state.favourites.filter(
+        (item) => item !== action.payload
+      );
+      localStorage.setItem("Favourites", JSON.stringify(state.favourites));
     },
     clearFavourites(state, action) {
       state.favourites = [];
@@ -24,7 +30,7 @@ const favouritesSlice = createSlice({
   },
 });
 
-export const { getFavourites, addFavourite, clearFavourites } =
+export const { getFavourites, addFavourite, removeFavourite, clearFavourites } =
   favouritesSlice.actions;
 
 export default favouritesSlice.reducer;

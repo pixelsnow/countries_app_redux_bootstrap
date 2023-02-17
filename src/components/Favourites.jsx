@@ -18,7 +18,6 @@ const Favourites = () => {
   let countriesList = useSelector((state) => state.countries.countries);
   const loading = useSelector((state) => state.countries.isLoading);
   const [search, setSearch] = useState("");
-
   const [favouritesList, setFavouritesList] = useState([]);
   if (favouritesList !== null) {
     countriesList = countriesList.filter((c) =>

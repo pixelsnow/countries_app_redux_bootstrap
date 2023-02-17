@@ -11,13 +11,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { initializeCountries } from "../features/countries/countriesSlice";
 import { Spinner } from "react-bootstrap";
-import { addFavourite } from "../features/countries/favouritesSlice";
+import {
+  addFavourite,
+  removeFavourite,
+} from "../features/countries/favouritesSlice";
 
 const Countries = () => {
   const dispatch = useDispatch();
   const countriesList = useSelector((state) => state.countries.countries);
   const loading = useSelector((state) => state.countries.isLoading);
   const [search, setSearch] = useState("");
+  let favouritesList = useSelector((state) => state.favourites.favourites);
 
   useEffect(() => {
     dispatch(initializeCountries());
@@ -55,12 +59,22 @@ const Countries = () => {
                   state={{ country: country }}
                 >
                   <Card className="h-100">
-                    <i
-                      className="bi bi-heart-fill text-danger m-1 p-1"
-                      onClick={() =>
-                        dispatch(addFavourite(country.name.common))
-                      }
-                    ></i>
+                    {favouritesList.includes(country.name.common) ? (
+                      <i
+                        className="bi bi-heart-fill text-danger m-1 p-1"
+                        onClick={() =>
+                          dispatch(removeFavourite(country.name.common))
+                        }
+                      ></i>
+                    ) : (
+                      <i
+                        className="bi bi-heart text-danger m-1 p-1"
+                        onClick={() =>
+                          dispatch(addFavourite(country.name.common))
+                        }
+                      ></i>
+                    )}
+
                     <Card.Body className="d-flex flex-column">
                       <Card.Title>{country.name.common}</Card.Title>
                       <Card.Subtitle className="mb-5 text-muted">
