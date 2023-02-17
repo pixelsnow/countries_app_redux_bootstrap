@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { initializeCountries } from "../features/countries/countriesSlice";
 import { Spinner } from "react-bootstrap";
+import { addFavourite } from "../features/countries/favouritesSlice";
 
 const Countries = () => {
   const dispatch = useDispatch();
@@ -54,6 +55,12 @@ const Countries = () => {
                   state={{ country: country }}
                 >
                   <Card className="h-100">
+                    <i
+                      className="bi bi-heart-fill text-danger m-1 p-1"
+                      onClick={() =>
+                        dispatch(addFavourite(country.name.common))
+                      }
+                    ></i>
                     <Card.Body className="d-flex flex-column">
                       <Card.Title>{country.name.common}</Card.Title>
                       <Card.Subtitle className="mb-5 text-muted">
