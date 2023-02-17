@@ -5,6 +5,8 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import { LinkContainer } from "react-router-bootstrap";
+import { logOut } from "../auth/firebase";
+import { Button } from "react-bootstrap";
 
 const Layout = () => {
   return (
@@ -32,6 +34,8 @@ const Layout = () => {
                 </LinkContainer>
               </Nav>
             </Navbar.Collapse>
+            <Button onClick={logOut}>Log out</Button>
+            <button onClick={logOut}>Log out</button>
           </Container>
         </Navbar>
       </Row>
