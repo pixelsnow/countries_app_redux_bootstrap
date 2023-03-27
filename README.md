@@ -4,3 +4,8 @@
 
 - React
 - Redux
+
+## Tester account
+
+tester@test.com
+test1234
