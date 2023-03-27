@@ -14,7 +14,8 @@ const favouritesSlice = createSlice({
     getFavourites(state) {},
     addFavourite(state, action) {
       state.favourites = [...state.favourites, action.payload];
-      localStorage.setItem("Favourites", JSON.stringify(state.favourites));
+
+      //localStorage.setItem("Favourites", JSON.stringify(state.favourites));
     },
     removeFavourite(state, action) {
       state.favourites = state.favourites.filter(

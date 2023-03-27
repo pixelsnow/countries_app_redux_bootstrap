@@ -50,6 +50,7 @@ const registerWithEmailAndPassword = async (name, email, password) => {
       name,
       authProvider: "local",
       email,
+      favourites: "",
     });
   } catch (err) {
     console.log(err);
