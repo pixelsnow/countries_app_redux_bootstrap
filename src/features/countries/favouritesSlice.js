@@ -2,18 +2,19 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../../auth/firebase";
-
-const favourites =
-  localStorage.getItem("Favourites") !== null
-    ? JSON.parse(localStorage.getItem("Favourites"))
-    : [];
+// updateDoc - documents needs to exist already
+// setDoc - will create if doesn't exist
 
 const favouritesSlice = createSlice({
   name: "favourites",
   initialState: {
-    favourites: favourites,
+    favourites: [],
   },
   reducers: {
+    setFavourites(state, action) {
+      state.favourites = action.payload;
+      console.log("state", state.favourites);
+    },
     addFavourite(state, action) {
       state.favourites = [...state.favourites, action.payload];
 
@@ -25,14 +26,19 @@ const favouritesSlice = createSlice({
       );
       localStorage.setItem("Favourites", JSON.stringify(state.favourites));
     },
-    clearFavourites(state, action) {
+    clearFavourites(state) {
       state.favourites = [];
       localStorage.removeItem("Favourites");
     },
   },
 });
 
-export const { getFavourites, addFavourite, removeFavourite, clearFavourites } =
-  favouritesSlice.actions;
+export const {
+  setFavourites,
+  getFavourites,
+  addFavourite,
+  removeFavourite,
+  clearFavourites,
+} = favouritesSlice.actions;
 
 export default favouritesSlice.reducer;
