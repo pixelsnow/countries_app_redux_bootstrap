@@ -5,6 +5,9 @@ import { useNavigate, Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
 import { auth, logInWithEmailAndPassword } from "../auth/firebase";
+import { useDispatch } from "react-redux";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../auth/firebase";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -12,6 +15,7 @@ const Login = () => {
   // This hook will store the user for us
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (loading) return;
@@ -19,6 +23,13 @@ const Login = () => {
     if (user) navigate("/countries");
     if (error) console.log(error);
   }, [user, loading, error, navigate]);
+
+  const logInHandler = async () => {
+    const userCredential = await logInWithEmailAndPassword(email, password);
+    const docRef = doc(db, "favourites", userCredential.user.uid);
+    const docSnap = await getDoc(docRef);
+    console.log("RES", docSnap.data());
+  };
 
   return (
     <div>
@@ -34,9 +45,7 @@ const Login = () => {
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
       />
-      <Button onClick={() => logInWithEmailAndPassword(email, password)}>
-        Log in
-      </Button>
+      <Button onClick={logInHandler}>Log in</Button>
       <div>
         Don't have an account? <Link to="/register">Sign up</Link> now.
       </div>

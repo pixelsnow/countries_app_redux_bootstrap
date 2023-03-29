@@ -24,14 +24,12 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
-// Firebase - the whole project
-// Firestore - the database
 // This is using our app which has auth set up and creates a database
 const db = getFirestore(app);
 
 const logInWithEmailAndPassword = async (email, password) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    return await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
     console.log(err);
     alert(err.message);
@@ -50,7 +48,6 @@ const registerWithEmailAndPassword = async (name, email, password) => {
       name,
       authProvider: "local",
       email,
-      favourites: "",
     });
   } catch (err) {
     console.log(err);

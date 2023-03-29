@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { db } from "../../auth/firebase";
+
 const favourites =
   localStorage.getItem("Favourites") !== null
     ? JSON.parse(localStorage.getItem("Favourites"))
@@ -11,11 +14,10 @@ const favouritesSlice = createSlice({
     favourites: favourites,
   },
   reducers: {
-    getFavourites(state) {},
     addFavourite(state, action) {
       state.favourites = [...state.favourites, action.payload];
 
-      //localStorage.setItem("Favourites", JSON.stringify(state.favourites));
+      localStorage.setItem("Favourites", JSON.stringify(state.favourites));
     },
     removeFavourite(state, action) {
       state.favourites = state.favourites.filter(
