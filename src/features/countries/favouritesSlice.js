@@ -1,18 +1,32 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../../auth/firebase";
 // updateDoc - documents needs to exist already
 // setDoc - will create if doesn't exist
 
-/* const docRef = doc(db, "favourites", userCredential.user.uid);
-const docSnap = await getDoc(docRef);
-const init = docSnap.data().faves; */
+import { userCredential } from "../../auth/firebase";
+
+/* const getFavourites = async () => {
+  const docRef = doc(db, "favourites", userCredential.user.uid);
+  const docSnap = await getDoc(docRef);
+  return docSnap.data().faves;
+}; */
+
+export const fetchFavourites = createAsyncThunk(
+  "favourites/favourites",
+  async () => {
+    const docRef = doc(db, "favourites", userCredential.user.uid);
+    const docSnap = await getDoc(docRef);
+    const faves = await docSnap.data().faves;
+    return faves;
+  }
+);
 
 const favouritesSlice = createSlice({
   name: "favourites",
   initialState: {
-    favourites: ["Italy"],
+    favourites: [],
   },
   reducers: {
     setFavourites(state, action) {
@@ -21,7 +35,6 @@ const favouritesSlice = createSlice({
     },
     addFavourite(state, action) {
       state.favourites = [...state.favourites, action.payload];
-
       localStorage.setItem("Favourites", JSON.stringify(state.favourites));
     },
     removeFavourite(state, action) {
@@ -35,14 +48,14 @@ const favouritesSlice = createSlice({
       localStorage.removeItem("Favourites");
     },
   },
+  extraReducers(builder) {
+    builder.addCase(fetchFavourites.fulfilled, (state, action) => {
+      state.favourites = action.payload;
+    });
+  },
 });
 
-export const {
-  setFavourites,
-  getFavourites,
-  addFavourite,
-  removeFavourite,
-  clearFavourites,
-} = favouritesSlice.actions;
+export const { setFavourites, addFavourite, removeFavourite, clearFavourites } =
+  favouritesSlice.actions;
 
 export default favouritesSlice.reducer;

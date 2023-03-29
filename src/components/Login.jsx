@@ -8,7 +8,10 @@ import { auth, logInWithEmailAndPassword } from "../auth/firebase";
 import { useDispatch } from "react-redux";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../auth/firebase";
-import { setFavourites } from "../features/countries/favouritesSlice";
+import {
+  fetchFavourites,
+  setFavourites,
+} from "../features/countries/favouritesSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -27,10 +30,11 @@ const Login = () => {
 
   const logInHandler = async () => {
     const userCredential = await logInWithEmailAndPassword(email, password);
-    const docRef = doc(db, "favourites", userCredential.user.uid);
+    dispatch(fetchFavourites());
+    /* const docRef = doc(db, "favourites", userCredential.user.uid);
     const docSnap = await getDoc(docRef);
     console.log("RES", docSnap.data());
-    dispatch(setFavourites(docSnap.data().faves));
+    dispatch(setFavourites(docSnap.data().faves)); */
   };
 
   return (

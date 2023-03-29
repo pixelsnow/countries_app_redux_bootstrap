@@ -27,9 +27,12 @@ const auth = getAuth(app);
 // This is using our app which has auth set up and creates a database
 const db = getFirestore(app);
 
+let userCredential = undefined;
+
 const logInWithEmailAndPassword = async (email, password) => {
   try {
-    return await signInWithEmailAndPassword(auth, email, password);
+    userCredential = await signInWithEmailAndPassword(auth, email, password);
+    return userCredential;
   } catch (err) {
     console.log(err);
     alert(err.message);
@@ -65,4 +68,5 @@ export {
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,
   logOut,
+  userCredential,
 };
