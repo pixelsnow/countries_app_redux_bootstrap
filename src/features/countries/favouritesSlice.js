@@ -5,10 +5,14 @@ import { db } from "../../auth/firebase";
 // updateDoc - documents needs to exist already
 // setDoc - will create if doesn't exist
 
+/* const docRef = doc(db, "favourites", userCredential.user.uid);
+const docSnap = await getDoc(docRef);
+const init = docSnap.data().faves; */
+
 const favouritesSlice = createSlice({
   name: "favourites",
   initialState: {
-    favourites: [],
+    favourites: ["Italy"],
   },
   reducers: {
     setFavourites(state, action) {

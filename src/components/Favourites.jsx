@@ -11,15 +11,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { initializeCountries } from "../features/countries/countriesSlice";
 import { Spinner, Button } from "react-bootstrap";
-import { clearFavourites } from "../features/countries/favouritesSlice";
+import {
+  clearFavourites,
+  setFavourites,
+} from "../features/countries/favouritesSlice";
 
 const Favourites = () => {
   const dispatch = useDispatch();
   let countriesList = useSelector((state) => state.countries.countries);
   const loading = useSelector((state) => state.countries.isLoading);
   const [search, setSearch] = useState("");
-  const [favouritesList, setFavouritesList] = useState([]);
+  const favouritesList = useSelector((state) => state.favourites.favourites);
+
   if (favouritesList !== null) {
+    console.log(favouritesList);
     countriesList = countriesList.filter((c) =>
       favouritesList.includes(c.name.common)
     );
@@ -29,12 +34,11 @@ const Favourites = () => {
 
   useEffect(() => {
     dispatch(initializeCountries());
-    setFavouritesList(localStorage.getItem("Favourites"));
   }, [dispatch]);
 
   const handleClearFavourites = () => {
     dispatch(clearFavourites());
-    setFavouritesList([]);
+    dispatch(setFavourites([]));
   };
 
   if (loading) return <Spinner animation="border" />;
