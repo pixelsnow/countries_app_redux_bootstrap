@@ -103,24 +103,24 @@ const Favourites = () => {
             )
             .map((country) => (
               <Col key={country.name.official} className="mt-5">
-                <LinkContainer
-                  to={`/countries/${country.name.common}`}
-                  state={{ country: country }}
-                >
-                  <Card className="h-100">
-                    {favouritesList.includes(country.name.common) ? (
-                      <i
-                        className="bi bi-heart-fill text-danger m-1 p-1"
-                        onClick={() =>
-                          removeFavouriteHandler(country.name.common)
-                        }
-                      ></i>
-                    ) : (
-                      <i
-                        className="bi bi-heart text-danger m-1 p-1"
-                        onClick={() => addFavouriteHandler(country.name.common)}
-                      ></i>
-                    )}
+                <Card className="h-100">
+                  {favouritesList.includes(country.name.common) ? (
+                    <i
+                      className="bi bi-heart-fill text-danger m-1 p-1"
+                      onClick={() =>
+                        removeFavouriteHandler(country.name.common)
+                      }
+                    ></i>
+                  ) : (
+                    <i
+                      className="bi bi-heart text-danger m-1 p-1"
+                      onClick={() => addFavouriteHandler(country.name.common)}
+                    ></i>
+                  )}
+                  <LinkContainer
+                    to={`/countries/${country.name.common}`}
+                    state={{ country: country }}
+                  >
                     <Card.Body className="d-flex flex-column">
                       <Card.Title>{country.name.common}</Card.Title>
                       <Card.Subtitle className="mb-5 text-muted">
@@ -163,8 +163,8 @@ const Favourites = () => {
                         </ListGroup.Item>
                       </ListGroup>
                     </Card.Body>
-                  </Card>
-                </LinkContainer>
+                  </LinkContainer>
+                </Card>
               </Col>
             ))}
         </Row>
