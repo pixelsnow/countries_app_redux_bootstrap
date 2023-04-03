@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../auth/firebase";
 // updateDoc - documents needs to exist already
 // setDoc - will create if doesn't exist
@@ -28,8 +28,9 @@ export const setFavouritesAsync = createAsyncThunk(
   async (data) => {
     console.log("setting faves");
     const docRef = doc(db, "favourites", userCredential.user.uid);
-    await updateDoc(docRef, {
+    await setDoc(docRef, {
       faves: data,
+      uid: userCredential.user.uid,
     });
   }
 );
@@ -46,17 +47,14 @@ const favouritesSlice = createSlice({
     },
     addFavourite(state, action) {
       state.favourites = [...state.favourites, action.payload];
-      localStorage.setItem("Favourites", JSON.stringify(state.favourites));
     },
     removeFavourite(state, action) {
       state.favourites = state.favourites.filter(
         (item) => item !== action.payload
       );
-      localStorage.setItem("Favourites", JSON.stringify(state.favourites));
     },
     clearFavourites(state) {
       state.favourites = [];
-      localStorage.removeItem("Favourites");
     },
   },
   extraReducers(builder) {

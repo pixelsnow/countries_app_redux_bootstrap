@@ -5,7 +5,13 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { collection, getFirestore, addDoc } from "firebase/firestore";
+import {
+  collection,
+  getFirestore,
+  addDoc,
+  setDoc,
+  doc,
+} from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -31,6 +37,7 @@ let userCredential = undefined;
 
 const logInWithEmailAndPassword = async (email, password) => {
   try {
+    console.log("logging in...");
     userCredential = await signInWithEmailAndPassword(auth, email, password);
     return userCredential;
   } catch (err) {
@@ -51,6 +58,10 @@ const registerWithEmailAndPassword = async (name, email, password) => {
       name,
       authProvider: "local",
       email,
+    });
+    await setDoc(doc(db, "favourites", user.uid), {
+      faves: [],
+      uid: user.uid,
     });
   } catch (err) {
     console.log(err);

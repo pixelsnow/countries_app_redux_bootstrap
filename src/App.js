@@ -17,6 +17,7 @@ import { ProtectedRoute } from "./auth/ProtectedRoute";
 
 const App = () => {
   const [user] = useAuthState(auth);
+  console.log("user is:", user);
   return (
     <BrowserRouter>
       <Routes>

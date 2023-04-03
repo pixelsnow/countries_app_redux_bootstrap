@@ -15,6 +15,7 @@ import {
   addFavourite,
   fetchFavourites,
   removeFavourite,
+  setFavouritesAsync,
 } from "../features/countries/favouritesSlice";
 
 const Countries = () => {
@@ -28,6 +29,18 @@ const Countries = () => {
     dispatch(initializeCountries());
     dispatch(fetchFavourites());
   }, [dispatch]);
+
+  const addFavouriteHandler = (countryName) => {
+    dispatch(addFavourite(countryName));
+    dispatch(setFavouritesAsync([...favouritesList, countryName]));
+  };
+
+  const removeFavouriteHandler = (countryName) => {
+    dispatch(removeFavourite(countryName));
+    dispatch(
+      setFavouritesAsync(favouritesList.filter((item) => item !== countryName))
+    );
+  };
 
   if (loading) return <Spinner animation="border" />;
   else
@@ -65,15 +78,13 @@ const Countries = () => {
                       <i
                         className="bi bi-heart-fill text-danger m-1 p-1"
                         onClick={() =>
-                          dispatch(removeFavourite(country.name.common))
+                          removeFavouriteHandler(country.name.common)
                         }
                       ></i>
                     ) : (
                       <i
                         className="bi bi-heart text-danger m-1 p-1"
-                        onClick={() =>
-                          dispatch(addFavourite(country.name.common))
-                        }
+                        onClick={() => addFavouriteHandler(country.name.common)}
                       ></i>
                     )}
 

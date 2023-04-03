@@ -29,6 +29,7 @@ const Login = () => {
   }, [user, loading, error, navigate]);
 
   const logInHandler = async () => {
+    console.log("logging in...");
     await logInWithEmailAndPassword(email, password);
     dispatch(fetchFavourites());
     /* const docRef = doc(db, "favourites", userCredential.user.uid);

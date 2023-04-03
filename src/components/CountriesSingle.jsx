@@ -8,37 +8,41 @@ const CountriesSingle = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { single } = useParams();
-  console.log(location);
+  console.log("location", location);
   console.log("single", single);
-  let country = undefined;
+
   //if (location) country = location.state.country;
 
   const [error, setError] = useState(false);
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [country, setCountry] = useState(undefined);
 
   useEffect(() => {
-    if (location) {
-      country = location.state.country;
+    if (location.state.country) {
+      console.log("state exists");
+      setCountry(location.state.country);
+      //setLoading(false);
       axios
         .get(
-          `https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
+          `https://api.openweathermap.org/data/2.5/weather?q=${location.state.country.capital}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
         )
         .then((res) => {
-          console.log(res.data);
+          console.log("weather data", res.data);
           setWeather(res.data);
           setLoading(false);
         })
         .catch((err) => {
-          console.log();
+          console.log(err);
           setError(true);
         });
     } else {
+      console.log("no state");
       countryService.getSingle(single).then((res) => {
         country = res.data;
-        console.log("res", res.data);
-        setLoading(false);
-        /* axios
+        console.log("country fetched", res.data);
+        //setLoading(false);
+        axios
           .get(
             `https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
           )
@@ -50,10 +54,13 @@ const CountriesSingle = () => {
           .catch((err) => {
             console.log();
             setError(true);
-          }); */
+          });
       });
     }
   }, [country]);
+
+  useEffect(() => console.log("loading", loading), [loading]);
+  useEffect(() => console.log("country changed", country), [country]);
 
   /*   useEffect(() => {
     axios
@@ -89,10 +96,12 @@ const CountriesSingle = () => {
     <Container>
       <Row className="m-5">
         <Col>
-          <Image
-            thumbnail
-            src={`https://source.unsplash.com/featured/1600x900?${country.capital}`}
-          />
+          {
+            <Image
+              thumbnail
+              src={`https://source.unsplash.com/featured/1600x900?${country.capital}`}
+            />
+          }
         </Col>
         <Col>
           <h2 className="display-4">{country.name.common}</h2>
