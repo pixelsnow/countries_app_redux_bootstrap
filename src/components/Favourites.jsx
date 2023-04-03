@@ -53,13 +53,6 @@ const Favourites = () => {
     dispatch(isLoading);
   };
 
-  const handleSetFavourites = () => {
-    dispatch(isLoading);
-    dispatch(setFavouritesAsync(["Japan", "Barbados"]));
-    dispatch(setFavourites(["Japan", "Barbados"]));
-    dispatch(isLoading);
-  };
-
   const addFavouriteHandler = (countryName) => {
     dispatch(addFavourite(countryName));
     dispatch(setFavouritesAsync([...favouritesList, countryName]));
@@ -92,7 +85,6 @@ const Favourites = () => {
         </Row>
         <Row xs={2} md={3} lg={4} className=" g-3">
           <Button onClick={handleClearFavourites}>Clear favourites</Button>
-          <Button onClick={handleSetFavourites}>Set favourites</Button>
         </Row>
         <Row xs={2} md={3} lg={4} className=" g-3">
           {countriesList
