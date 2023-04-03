@@ -117,53 +117,56 @@ const Favourites = () => {
                       onClick={() => addFavouriteHandler(country.name.common)}
                     ></i>
                   )}
-                  <LinkContainer
-                    to={`/countries/${country.name.common}`}
-                    state={{ country: country }}
-                  >
-                    <Card.Body className="d-flex flex-column">
-                      <Card.Title>{country.name.common}</Card.Title>
-                      <Card.Subtitle className="mb-5 text-muted">
-                        {country.name.official}
-                      </Card.Subtitle>
-                      <Card.Img
-                        src={country?.flags?.svg}
-                        alt={country.name.common}
-                      />
-                      <ListGroup
-                        variant="flush"
-                        className="flex-grow-1 justify-content-end"
-                      >
-                        <ListGroup.Item>
-                          <i className="bi bi-translate me-2"></i>
-                          <span>
-                            {
-                              country.languages
-                                ? Object.values(country.languages).join(", ")
-                                : "---"
-                              // Another way: {Object.values(country.languages) || {} }
-                            }
-                          </span>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                          <i className="bi bi-cash-coin me-2"></i>
-                          <span>
-                            {country.currencies
-                              ? Object.values(country.currencies)
-                                  .map((currency) => currency.name)
-                                  .join(", ")
-                              : "---"}
-                          </span>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                          <i className="bi bi-people me-2"></i>
-                          <span>
-                            {country.population.toLocaleString("fi-FI")}
-                          </span>
-                        </ListGroup.Item>
-                      </ListGroup>
-                    </Card.Body>
-                  </LinkContainer>
+
+                  <Card.Body className="d-flex flex-column">
+                    <LinkContainer
+                      to={`/countries/${country.name.common}`}
+                      state={{ country: country }}
+                    >
+                      <div>
+                        <Card.Title>{country.name.common}</Card.Title>
+                        <Card.Subtitle className="mb-5 text-muted">
+                          {country.name.official}
+                        </Card.Subtitle>
+                        <Card.Img
+                          src={country?.flags?.svg}
+                          alt={country.name.common}
+                        />
+                      </div>
+                    </LinkContainer>
+                    <ListGroup
+                      variant="flush"
+                      className="flex-grow-1 justify-content-end"
+                    >
+                      <ListGroup.Item>
+                        <i className="bi bi-translate me-2"></i>
+                        <span>
+                          {
+                            country.languages
+                              ? Object.values(country.languages).join(", ")
+                              : "---"
+                            // Another way: {Object.values(country.languages) || {} }
+                          }
+                        </span>
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <i className="bi bi-cash-coin me-2"></i>
+                        <span>
+                          {country.currencies
+                            ? Object.values(country.currencies)
+                                .map((currency) => currency.name)
+                                .join(", ")
+                            : "---"}
+                        </span>
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <i className="bi bi-people me-2"></i>
+                        <span>
+                          {country.population.toLocaleString("fi-FI")}
+                        </span>
+                      </ListGroup.Item>
+                    </ListGroup>
+                  </Card.Body>
                 </Card>
               </Col>
             ))}

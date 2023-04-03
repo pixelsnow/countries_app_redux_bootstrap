@@ -26,7 +26,6 @@ export const fetchFavourites = createAsyncThunk(
 export const setFavouritesAsync = createAsyncThunk(
   "favourites/set",
   async (data) => {
-    console.log("setting faves");
     const docRef = doc(db, "favourites", userCredential.user.uid);
     await setDoc(docRef, {
       faves: data,
@@ -43,7 +42,6 @@ const favouritesSlice = createSlice({
   reducers: {
     setFavourites(state, action) {
       state.favourites = action.payload;
-      console.log("state", state.favourites);
     },
     addFavourite(state, action) {
       state.favourites = [...state.favourites, action.payload];
@@ -62,9 +60,7 @@ const favouritesSlice = createSlice({
       .addCase(fetchFavourites.fulfilled, (state, action) => {
         state.favourites = action.payload;
       })
-      .addCase(setFavouritesAsync.fulfilled, (state, action) => {
-        console.log("setting faves payload", action.payload);
-      });
+      .addCase(setFavouritesAsync.fulfilled);
   },
 });
 

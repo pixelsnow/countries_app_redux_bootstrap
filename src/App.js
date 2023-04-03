@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -14,10 +14,13 @@ import { auth } from "./auth/firebase";
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { ProtectedRoute } from "./auth/ProtectedRoute";
+import { fetchFavourites } from "./features/countries/favouritesSlice";
+import { useDispatch } from "react-redux";
 
 const App = () => {
+  const dispatch = useDispatch();
   const [user] = useAuthState(auth);
-  console.log("user is:", user);
+  dispatch(fetchFavourites());
   return (
     <BrowserRouter>
       <Routes>
