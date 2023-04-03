@@ -14,12 +14,23 @@ import { userCredential } from "../../auth/firebase";
 }; */
 
 export const fetchFavourites = createAsyncThunk(
-  "favourites/favourites",
+  "favourites/fetch",
   async () => {
     const docRef = doc(db, "favourites", userCredential.user.uid);
     const docSnap = await getDoc(docRef);
     const faves = await docSnap.data().faves;
     return faves;
+  }
+);
+
+export const setFavouritesAsync = createAsyncThunk(
+  "favourites/set",
+  async (data) => {
+    console.log("setting faves");
+    const docRef = doc(db, "favourites", userCredential.user.uid);
+    await updateDoc(docRef, {
+      faves: data,
+    });
   }
 );
 
@@ -49,9 +60,13 @@ const favouritesSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(fetchFavourites.fulfilled, (state, action) => {
-      state.favourites = action.payload;
-    });
+    builder
+      .addCase(fetchFavourites.fulfilled, (state, action) => {
+        state.favourites = action.payload;
+      })
+      .addCase(setFavouritesAsync.fulfilled, (state, action) => {
+        console.log("setting faves payload", action.payload);
+      });
   },
 });
 

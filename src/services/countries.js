@@ -7,6 +7,11 @@ const getAll = async () => {
   return response.data;
 };
 
-const exportedObject = { getAll };
+const getSingle = async (country) => {
+  const response = await axios.get(baseUrl + "/name/" + country);
+  return response.data;
+};
+
+const exportedObject = { getAll, getSingle };
 
 export default exportedObject;

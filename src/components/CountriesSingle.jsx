@@ -1,19 +1,61 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Col, Container, Row, Image, Button, Spinner } from "react-bootstrap";
+import countryService from "../services/countries";
 
 const CountriesSingle = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { single } = useParams();
   console.log(location);
-  const country = location.state.country;
+  console.log("single", single);
+  let country = undefined;
+  //if (location) country = location.state.country;
 
   const [error, setError] = useState(false);
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (location) {
+      country = location.state.country;
+      axios
+        .get(
+          `https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
+        )
+        .then((res) => {
+          console.log(res.data);
+          setWeather(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log();
+          setError(true);
+        });
+    } else {
+      countryService.getSingle(single).then((res) => {
+        country = res.data;
+        console.log("res", res.data);
+        setLoading(false);
+        /* axios
+          .get(
+            `https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
+          )
+          .then((res) => {
+            console.log(res.data);
+            setWeather(res.data);
+            setLoading(false);
+          })
+          .catch((err) => {
+            console.log();
+            setError(true);
+          }); */
+      });
+    }
+  }, [country]);
+
+  /*   useEffect(() => {
     axios
       .get(
         `https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
@@ -27,9 +69,7 @@ const CountriesSingle = () => {
         console.log();
         setError(true);
       });
-  }, [country.capital]);
-
-  console.log(weather);
+  }, [country.capital]); */
 
   if (loading) {
     return (

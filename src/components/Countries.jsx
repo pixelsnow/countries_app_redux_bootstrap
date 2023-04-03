@@ -13,6 +13,7 @@ import { initializeCountries } from "../features/countries/countriesSlice";
 import { Spinner } from "react-bootstrap";
 import {
   addFavourite,
+  fetchFavourites,
   removeFavourite,
 } from "../features/countries/favouritesSlice";
 
@@ -25,6 +26,7 @@ const Countries = () => {
 
   useEffect(() => {
     dispatch(initializeCountries());
+    dispatch(fetchFavourites());
   }, [dispatch]);
 
   if (loading) return <Spinner animation="border" />;

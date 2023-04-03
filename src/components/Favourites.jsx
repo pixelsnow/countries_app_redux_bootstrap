@@ -9,11 +9,15 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/Row";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
-import { initializeCountries } from "../features/countries/countriesSlice";
+import {
+  initializeCountries,
+  isLoading,
+} from "../features/countries/countriesSlice";
 import { Spinner, Button } from "react-bootstrap";
 import {
   clearFavourites,
   setFavourites,
+  setFavouritesAsync,
 } from "../features/countries/favouritesSlice";
 
 const Favourites = () => {
@@ -36,9 +40,22 @@ const Favourites = () => {
     dispatch(initializeCountries());
   }, [dispatch]);
 
+  useEffect(() => {
+    console.log("state", favouritesList);
+  }, [favouritesList]);
+
   const handleClearFavourites = () => {
-    dispatch(clearFavourites());
+    dispatch(isLoading);
+    dispatch(setFavouritesAsync([]));
     dispatch(setFavourites([]));
+    dispatch(isLoading);
+  };
+
+  const handleSetFavourites = () => {
+    dispatch(isLoading);
+    dispatch(setFavouritesAsync(["Japan", "Barbados"]));
+    dispatch(setFavourites(["Japan", "Barbados"]));
+    dispatch(isLoading);
   };
 
   if (loading) return <Spinner animation="border" />;
@@ -61,6 +78,7 @@ const Favourites = () => {
         </Row>
         <Row xs={2} md={3} lg={4} className=" g-3">
           <Button onClick={handleClearFavourites}>Clear favourites</Button>
+          <Button onClick={handleSetFavourites}>Set favourites</Button>
         </Row>
         <Row xs={2} md={3} lg={4} className=" g-3">
           {countriesList
