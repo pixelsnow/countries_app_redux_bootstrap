@@ -10,20 +10,36 @@ import Favourites from "./components/Favourites";
 import Login from "./components/Login";
 import Register from "./components/Register";
 
-import { auth } from "./auth/firebase";
+//import { auth } from "./auth/firebase";
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { ProtectedRoute } from "./auth/ProtectedRoute";
 import { fetchFavourites } from "./features/countries/favouritesSlice";
 import { useDispatch } from "react-redux";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const App = () => {
   const dispatch = useDispatch();
+  const auth = getAuth();
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("user signed in!", user);
+      dispatch(fetchFavourites());
+    } else {
+      console.log("user signed out");
+    }
+  });
   const [user] = useAuthState(auth);
+  /* const [user] = useAuthState(auth);
   useEffect(() => {
     dispatch(fetchFavourites());
     console.log("user changed!", user);
   }, [user, dispatch]);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) dispatch(fetchFavourites());
+  }); */
 
   return (
     <BrowserRouter>
