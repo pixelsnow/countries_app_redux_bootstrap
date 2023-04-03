@@ -19,24 +19,25 @@ const CountriesSingle = () => {
   const [country, setCountry] = useState(undefined);
 
   useEffect(() => {
-    /*  if (location.state.country) { */
-    console.log("state exists");
-    setCountry(location.state.country);
-    //setLoading(false);
-    axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${location.state.country.capital}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
-      )
-      .then((res) => {
-        console.log("weather data", res.data);
-        setWeather(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(true);
-      });
-    /* } else {
+    if (location.state.country) {
+      /*  if (location.state.country) { */
+      console.log("state exists");
+      setCountry(location.state.country);
+      //setLoading(false);
+      axios
+        .get(
+          `https://api.openweathermap.org/data/2.5/weather?q=${location.state.country.capital}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
+        )
+        .then((res) => {
+          console.log("weather data", res.data);
+          setWeather(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+        });
+    } else {
       console.log("no state");
       countryService.getSingle(single).then((res) => {
         country = res.data;
@@ -55,7 +56,7 @@ const CountriesSingle = () => {
             setError(true);
           });
       });
-    } */
+    }
   }, [country]);
 
   useEffect(() => console.log("loading", loading), [loading]);
