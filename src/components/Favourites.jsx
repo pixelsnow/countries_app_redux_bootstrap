@@ -14,23 +14,17 @@ import {
   isLoading,
 } from "../features/countries/countriesSlice";
 import { Spinner, Button } from "react-bootstrap";
-import {
-  clearFavourites,
-  setFavourites,
-  setFavouritesAsync,
-  addFavourite,
-  removeFavourite,
-} from "../features/countries/favouritesSlice";
+import { setFavouritesAsync } from "../features/countries/favouritesSlice";
 
 const Favourites = () => {
   const dispatch = useDispatch();
+
   let countriesList = useSelector((state) => state.countries.countries);
   const loading = useSelector((state) => state.countries.isLoading);
-  const [search, setSearch] = useState("");
   const favouritesList = useSelector((state) => state.favourites.favourites);
+  const [search, setSearch] = useState("");
 
   if (favouritesList !== null) {
-    console.log(favouritesList);
     countriesList = countriesList.filter((c) =>
       favouritesList.includes(c.name.common)
     );
@@ -42,27 +36,22 @@ const Favourites = () => {
     dispatch(initializeCountries());
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log("state", favouritesList);
-  }, [favouritesList]);
-
   const handleClearFavourites = () => {
     dispatch(isLoading);
     dispatch(setFavouritesAsync([]));
-    dispatch(setFavourites([]));
     dispatch(isLoading);
   };
 
   const addFavouriteHandler = (countryName) => {
-    dispatch(addFavourite(countryName));
-    dispatch(setFavouritesAsync([...favouritesList, countryName]));
+    const newList = [...favouritesList, countryName];
+    //dispatch(setFavourites(newList));
+    dispatch(setFavouritesAsync(newList));
   };
 
   const removeFavouriteHandler = (countryName) => {
-    dispatch(removeFavourite(countryName));
-    dispatch(
-      setFavouritesAsync(favouritesList.filter((item) => item !== countryName))
-    );
+    const newList = favouritesList.filter((item) => item !== countryName);
+    //dispatch(setFavourites(newList));
+    dispatch(setFavouritesAsync(newList));
   };
 
   if (loading) return <Spinner animation="border" />;

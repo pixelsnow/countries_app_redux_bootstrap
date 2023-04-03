@@ -12,9 +12,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { initializeCountries } from "../features/countries/countriesSlice";
 import { Spinner } from "react-bootstrap";
 import {
-  addFavourite,
   fetchFavourites,
-  removeFavourite,
   setFavouritesAsync,
 } from "../features/countries/favouritesSlice";
 
@@ -31,15 +29,15 @@ const Countries = () => {
   }, [dispatch]);
 
   const addFavouriteHandler = (countryName) => {
-    dispatch(addFavourite(countryName));
-    dispatch(setFavouritesAsync([...favouritesList, countryName]));
+    const newList = [...favouritesList, countryName];
+    //dispatch(setFavourites(newList));
+    dispatch(setFavouritesAsync(newList));
   };
 
   const removeFavouriteHandler = (countryName) => {
-    dispatch(removeFavourite(countryName));
-    dispatch(
-      setFavouritesAsync(favouritesList.filter((item) => item !== countryName))
-    );
+    const newList = favouritesList.filter((item) => item !== countryName);
+    //dispatch(setFavourites(newList));
+    dispatch(setFavouritesAsync(newList));
   };
 
   if (loading) return <Spinner animation="border" />;

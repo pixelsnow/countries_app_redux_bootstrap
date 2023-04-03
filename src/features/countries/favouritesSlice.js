@@ -31,6 +31,7 @@ export const setFavouritesAsync = createAsyncThunk(
       faves: data,
       uid: userCredential.user.uid,
     });
+    return data;
   }
 );
 
@@ -39,32 +40,16 @@ const favouritesSlice = createSlice({
   initialState: {
     favourites: [],
   },
-  reducers: {
-    setFavourites(state, action) {
-      state.favourites = action.payload;
-    },
-    addFavourite(state, action) {
-      state.favourites = [...state.favourites, action.payload];
-    },
-    removeFavourite(state, action) {
-      state.favourites = state.favourites.filter(
-        (item) => item !== action.payload
-      );
-    },
-    clearFavourites(state) {
-      state.favourites = [];
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(fetchFavourites.fulfilled, (state, action) => {
         state.favourites = action.payload;
       })
-      .addCase(setFavouritesAsync.fulfilled);
+      .addCase(setFavouritesAsync.fulfilled, (state, action) => {
+        state.favourites = action.payload;
+      });
   },
 });
-
-export const { setFavourites, addFavourite, removeFavourite, clearFavourites } =
-  favouritesSlice.actions;
 
 export default favouritesSlice.reducer;

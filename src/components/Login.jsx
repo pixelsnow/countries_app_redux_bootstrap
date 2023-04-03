@@ -10,7 +10,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../auth/firebase";
 import {
   fetchFavourites,
-  setFavourites,
+
 } from "../features/countries/favouritesSlice";
 
 const Login = () => {
