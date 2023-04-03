@@ -7,5 +7,5 @@
 
 ## Tester account
 
-tester@test.com
+tester2@test.com
 test1234
