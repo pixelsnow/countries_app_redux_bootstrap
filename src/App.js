@@ -20,7 +20,11 @@ import { useDispatch } from "react-redux";
 const App = () => {
   const dispatch = useDispatch();
   const [user] = useAuthState(auth);
-  dispatch(fetchFavourites());
+  useEffect(() => {
+    dispatch(fetchFavourites());
+    console.log("user changed!", user);
+  }, [user, dispatch]);
+
   return (
     <BrowserRouter>
       <Routes>
