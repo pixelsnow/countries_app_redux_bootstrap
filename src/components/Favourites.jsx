@@ -18,6 +18,8 @@ import {
   clearFavourites,
   setFavourites,
   setFavouritesAsync,
+  addFavourite,
+  removeFavourite,
 } from "../features/countries/favouritesSlice";
 
 const Favourites = () => {
@@ -58,6 +60,18 @@ const Favourites = () => {
     dispatch(isLoading);
   };
 
+  const addFavouriteHandler = (countryName) => {
+    dispatch(addFavourite(countryName));
+    dispatch(setFavouritesAsync([...favouritesList, countryName]));
+  };
+
+  const removeFavouriteHandler = (countryName) => {
+    dispatch(removeFavourite(countryName));
+    dispatch(
+      setFavouritesAsync(favouritesList.filter((item) => item !== countryName))
+    );
+  };
+
   if (loading) return <Spinner animation="border" />;
   else
     return (
@@ -94,6 +108,19 @@ const Favourites = () => {
                   state={{ country: country }}
                 >
                   <Card className="h-100">
+                    {favouritesList.includes(country.name.common) ? (
+                      <i
+                        className="bi bi-heart-fill text-danger m-1 p-1"
+                        onClick={() =>
+                          removeFavouriteHandler(country.name.common)
+                        }
+                      ></i>
+                    ) : (
+                      <i
+                        className="bi bi-heart text-danger m-1 p-1"
+                        onClick={() => addFavouriteHandler(country.name.common)}
+                      ></i>
+                    )}
                     <Card.Body className="d-flex flex-column">
                       <Card.Title>{country.name.common}</Card.Title>
                       <Card.Subtitle className="mb-5 text-muted">
