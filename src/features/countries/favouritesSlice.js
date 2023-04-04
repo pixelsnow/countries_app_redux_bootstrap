@@ -4,10 +4,10 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 import { db } from "../../auth/firebase";
 
-//
+// userId will hold uid
 const auth = getAuth();
 let userId;
-
+// Observer
 onAuthStateChanged(auth, (user) => {
   if (user) {
     userId = user.uid;
@@ -20,7 +20,6 @@ onAuthStateChanged(auth, (user) => {
 export const fetchFavourites = createAsyncThunk(
   "favourites/fetch",
   async () => {
-    console.log("SLICE fetching faves, user cred:", userId);
     const docRef = doc(db, "favourites", userId);
     const docSnap = await getDoc(docRef);
     const faves = await docSnap.data().faves;
@@ -28,7 +27,7 @@ export const fetchFavourites = createAsyncThunk(
   }
 );
 
-export const setFavouritesAsync = createAsyncThunk(
+export const setFavourites = createAsyncThunk(
   "favourites/set",
   async (data) => {
     const docRef = doc(db, "favourites", userId);
@@ -48,11 +47,9 @@ const favouritesSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchFavourites.fulfilled, (state, action) => {
-        console.log("fetching faves, payload:", action.payload);
         state.favourites = action.payload;
       })
-      .addCase(setFavouritesAsync.fulfilled, (state, action) => {
-        console.log("setting faves, payload:", action.payload);
+      .addCase(setFavourites.fulfilled, (state, action) => {
         state.favourites = action.payload;
       });
   },

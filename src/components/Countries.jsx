@@ -13,7 +13,7 @@ import { initializeCountries } from "../features/countries/countriesSlice";
 import { Spinner } from "react-bootstrap";
 import {
   fetchFavourites,
-  setFavouritesAsync,
+  setFavourites,
 } from "../features/countries/favouritesSlice";
 
 const Countries = () => {
@@ -31,13 +31,13 @@ const Countries = () => {
   const addFavouriteHandler = (countryName) => {
     const newList = [...favouritesList, countryName];
     //dispatch(setFavourites(newList));
-    dispatch(setFavouritesAsync(newList));
+    dispatch(setFavourites(newList));
   };
 
   const removeFavouriteHandler = (countryName) => {
     const newList = favouritesList.filter((item) => item !== countryName);
     //dispatch(setFavourites(newList));
-    dispatch(setFavouritesAsync(newList));
+    dispatch(setFavourites(newList));
   };
 
   if (loading) return <Spinner animation="border" />;
