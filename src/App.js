@@ -13,6 +13,7 @@ import Register from "./components/Register";
 //import { auth } from "./auth/firebase";
 
 import "bootstrap-icons/font/bootstrap-icons.css";
+//import "./styles/stylesheet.scss";
 import { ProtectedRoute } from "./auth/ProtectedRoute";
 import { fetchFavourites } from "./features/countries/favouritesSlice";
 import { useDispatch } from "react-redux";
