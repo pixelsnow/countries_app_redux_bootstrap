@@ -1,28 +1,29 @@
-import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useDispatch } from "react-redux";
 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+import { ProtectedRoute } from "./auth/ProtectedRoute";
+import { fetchFavourites } from "./features/countries/favouritesSlice";
+
+import Layout from "./pages/Layout";
 import Countries from "./components/Countries";
 import CountriesSingle from "./components/CountriesSingle";
 import Home from "./components/Home";
-import Layout from "./pages/Layout";
 import Favourites from "./components/Favourites";
 import Login from "./components/Login";
 import Register from "./components/Register";
 
-//import { auth } from "./auth/firebase";
-
 import "bootstrap-icons/font/bootstrap-icons.css";
 //import "./styles/stylesheet.scss";
-import { ProtectedRoute } from "./auth/ProtectedRoute";
-import { fetchFavourites } from "./features/countries/favouritesSlice";
-import { useDispatch } from "react-redux";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const App = () => {
   const dispatch = useDispatch();
+
   const auth = getAuth();
 
+  // Make sure to fetch favourites from database after authorisation
   onAuthStateChanged(auth, (user) => {
     if (user) {
       console.log("user signed in!", user);
@@ -31,16 +32,8 @@ const App = () => {
       console.log("user signed out");
     }
   });
-  const [user] = useAuthState(auth);
-  /* const [user] = useAuthState(auth);
-  useEffect(() => {
-    dispatch(fetchFavourites());
-    console.log("user changed!", user);
-  }, [user, dispatch]);
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) dispatch(fetchFavourites());
-  }); */
+  const [user] = useAuthState(auth);
 
   return (
     <BrowserRouter>
