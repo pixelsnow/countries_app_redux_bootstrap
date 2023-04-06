@@ -17,6 +17,7 @@ const CountriesSingle = () => {
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
   const [country, setCountry] = useState(undefined);
+  const [borders, setBorders] = useState([]);
 
   useEffect(() => {
     if (location.state.country) {
@@ -58,6 +59,10 @@ const CountriesSingle = () => {
       });
     }
   }, [country]);
+
+  useEffect(() => {
+    /* axios.get(`https://restcountries.com/v3.1/name/${location.state.country}`).then((res) => ) */
+  }, []);
 
   useEffect(() => console.log("loading", loading), [loading]);
   useEffect(() => console.log("country changed", country), [country]);
@@ -118,6 +123,10 @@ const CountriesSingle = () => {
               />
             </div>
           )}
+          <div>
+            {country.borders &&
+              country.borders.map((country) => <div>{country}</div>)}
+          </div>
         </Col>
       </Row>
       <Row>
