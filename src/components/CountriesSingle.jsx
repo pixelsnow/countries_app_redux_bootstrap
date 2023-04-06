@@ -16,8 +16,8 @@ const CountriesSingle = () => {
   const [error, setError] = useState(false);
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [country, setCountry] = useState(undefined);
-  const [borders, setBorders] = useState([]);
+  const [country, setCountry] = useState(null);
+  const [borders, setBorders] = useState(null);
 
   useEffect(() => {
     if (location.state.country) {
@@ -61,8 +61,17 @@ const CountriesSingle = () => {
   }, [country]);
 
   useEffect(() => {
-    /* axios.get(`https://restcountries.com/v3.1/name/${location.state.country}`).then((res) => ) */
-  }, []);
+    const codes = location.state.country.borders;
+    if (!codes) return;
+    const promises = codes.map((code) =>
+      axios.get(`https://restcountries.com/v3.1/alpha/${code}`)
+    );
+    Promise.all(promises).then((values) => {
+      console.log(values);
+      console.log(values.map((country) => country.data[0].name.common));
+      setBorders(values.map((country) => country.data[0].name.common));
+    });
+  }, [location.state.country.borders]);
 
   useEffect(() => console.log("loading", loading), [loading]);
   useEffect(() => console.log("country changed", country), [country]);
@@ -125,9 +134,7 @@ const CountriesSingle = () => {
           )}
           <h3>Borders:</h3>
           <div>
-            {country.borders
-              ? country.borders.map((country) => <div>{country}</div>)
-              : "none"}
+            {borders ? borders.map((country) => <div>{country}</div>) : "none"}
           </div>
         </Col>
       </Row>
