@@ -123,9 +123,11 @@ const CountriesSingle = () => {
               />
             </div>
           )}
+          <h3>Borders:</h3>
           <div>
-            {country.borders &&
-              country.borders.map((country) => <div>{country}</div>)}
+            {country.borders
+              ? country.borders.map((country) => <div>{country}</div>)
+              : "none"}
           </div>
         </Col>
       </Row>
