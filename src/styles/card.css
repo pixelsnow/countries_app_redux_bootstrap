@@ -1,0 +1,18 @@
+.card {
+  background-color: antiquewhite;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.443);
+}
+
+.card-body {
+  text-align: center;
+}
+.card-title {
+  font-size: 2rem;
+}
+
+.card-body .list-group {
+  text-align: left;
+}
+.list-group-item {
+  background-color: antiquewhite;
+}

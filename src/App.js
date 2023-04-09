@@ -20,6 +20,8 @@ import Register from "./components/Register";
 // Styles
 import "bootstrap-icons/font/bootstrap-icons.css";
 //import "./styles/stylesheet.scss";
+import "./App.css";
+import "./styles/card.css";
 
 const App = () => {
   const auth = getAuth();
