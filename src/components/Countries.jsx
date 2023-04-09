@@ -48,9 +48,8 @@ const Countries = () => {
           <Col className="mt-5 d-flex justify-content-center">
             <Form>
               <Form.Control
-                style={{ width: "18rem" }}
                 type="search"
-                className="me-2 "
+                className="me-2"
                 placeholder="Search for countries"
                 aria-label="Search"
                 onChange={(e) => setSearch(e.target.value)}
@@ -68,19 +67,21 @@ const Countries = () => {
             .map((country) => (
               <Col key={country.name.official} className="mt-5">
                 <Card className="h-100">
-                  {favouritesList.includes(country.name.common) ? (
-                    <i
-                      className="bi bi-heart-fill text-danger m-1 p-1"
-                      onClick={() =>
-                        removeFavouriteHandler(country.name.common)
-                      }
-                    ></i>
-                  ) : (
-                    <i
-                      className="bi bi-heart text-danger m-1 p-1"
-                      onClick={() => addFavouriteHandler(country.name.common)}
-                    ></i>
-                  )}
+                  <div className="heart">
+                    {favouritesList.includes(country.name.common) ? (
+                      <i
+                        className="bi bi-heart-fill text-danger m-1 p-1"
+                        onClick={() =>
+                          removeFavouriteHandler(country.name.common)
+                        }
+                      ></i>
+                    ) : (
+                      <i
+                        className="bi bi-heart text-danger m-1 p-1"
+                        onClick={() => addFavouriteHandler(country.name.common)}
+                      ></i>
+                    )}
+                  </div>
 
                   <Card.Body className="d-flex flex-column">
                     <LinkContainer

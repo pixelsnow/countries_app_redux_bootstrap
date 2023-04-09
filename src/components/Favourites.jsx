@@ -73,7 +73,9 @@ const Favourites = () => {
           </Col>
         </Row>
         <Row xs={2} md={3} lg={4} className=" g-3">
-          <Button onClick={handleClearFavourites}>Clear favourites</Button>
+          <Button variant="custom" onClick={handleClearFavourites}>
+            Clear favourites
+          </Button>
         </Row>
         <Row xs={2} md={3} lg={4} className=" g-3">
           {countriesList

@@ -1,0 +1,17 @@
+.navbar {
+  background-color: #f2ece4;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.navbar-brand {
+  height: 3.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  height: 100%;
+  width: 100%;
+}

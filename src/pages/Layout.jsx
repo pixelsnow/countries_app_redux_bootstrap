@@ -7,19 +7,22 @@ import Row from "react-bootstrap/Row";
 import { LinkContainer } from "react-router-bootstrap";
 import { logOut } from "../auth/firebase";
 import { Button } from "react-bootstrap";
+import Logo from "../components/Logo";
 
 const Layout = () => {
   return (
-    <Container fluid>
+    <Container className="main-container" fluid>
       <Row>
-        <Navbar bg="light" variant="light">
+        <Navbar variant="light">
           <Container className="justify-content-end">
+            <LinkContainer to="/">
+              <Navbar.Brand>
+                <Logo />
+              </Navbar.Brand>
+            </LinkContainer>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav>
-                <LinkContainer to="/">
-                  <Nav.Link>Home</Nav.Link>
-                </LinkContainer>
                 <LinkContainer to="/countries">
                   <Nav.Link>Countries</Nav.Link>
                 </LinkContainer>
@@ -34,7 +37,9 @@ const Layout = () => {
                 </LinkContainer>
               </Nav>
             </Navbar.Collapse>
-            <Button onClick={logOut}>Log out</Button>
+            <Button variant="custom" onClick={logOut}>
+              Log out
+            </Button>
           </Container>
         </Navbar>
       </Row>

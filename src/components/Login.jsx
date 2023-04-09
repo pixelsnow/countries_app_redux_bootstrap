@@ -8,10 +8,7 @@ import { auth, logInWithEmailAndPassword } from "../auth/firebase";
 import { useDispatch } from "react-redux";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../auth/firebase";
-import {
-  fetchFavourites,
-
-} from "../features/countries/favouritesSlice";
+import { fetchFavourites } from "../features/countries/favouritesSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -52,7 +49,9 @@ const Login = () => {
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
       />
-      <Button onClick={logInHandler}>Log in</Button>
+      <Button variant="custom" onClick={logInHandler}>
+        Log in
+      </Button>
       <div>
         Don't have an account? <Link to="/register">Sign up</Link> now.
       </div>
