@@ -4,3 +4,8 @@
   height: 400px;
   width: 100vw;
 }
+
+.gallery img {
+  max-width: 350px;
+  max-height: 350px;
+}

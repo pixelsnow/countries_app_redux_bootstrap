@@ -104,7 +104,6 @@ const CountriesSingle = () => {
         placeId: placeID,
       },
       function (place, status) {
-        console.log("Place details, PHOTOS?", place);
         setPhotos(
           place.photos.map((pics) =>
             pics.getUrl({ maxWidth: 350, maxHeight: 350 })
@@ -148,8 +147,7 @@ const CountriesSingle = () => {
       fields: ["displayName", "location"],
     };
     asyncPlaces(request).then((data) => {
-      console.log("HI", data);
-      console.log("HI", data[0].id);
+      console.log("ID", data[0].id);
       const requestPhotos = {
         placeId: data[0].id,
         fields: ["photos"],
@@ -197,8 +195,8 @@ const CountriesSingle = () => {
           </Button>
         </Col>
       </Row>
-      <Row className="m-5">
-        {photos && photos.map((pic) => <Image alt="pic" src={pic} />)}
+      <Row className="m-5 gallery">
+        {photos && photos.map((pic) => <Image alt="pic" src={pic} key={pic} />)}
       </Row>
       <Row className="m-5 mt-4">
         <Col>
@@ -231,6 +229,7 @@ const CountriesSingle = () => {
                   <LinkContainer
                     to={`/countries/${country.name.common}`}
                     state={{ country: country }}
+                    key={country.name.common}
                   >
                     <ListGroupItem>{country.name.common}</ListGroupItem>
                   </LinkContainer>
