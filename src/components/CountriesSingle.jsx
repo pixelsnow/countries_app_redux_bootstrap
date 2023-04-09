@@ -108,7 +108,7 @@ const CountriesSingle = () => {
     );
   }
   return (
-    <Container>
+    <Container className="countries-single-container">
       <Row className="m-5">
         <Col>
           {
