@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
-import { Col, Container, Row, Image, Button, Spinner } from "react-bootstrap";
+import {
+  Col,
+  Container,
+  Row,
+  Image,
+  Button,
+  Spinner,
+  ListGroup,
+  ListGroupItem,
+} from "react-bootstrap";
 import countryService from "../services/countries";
 import { LinkContainer } from "react-router-bootstrap";
 
@@ -74,7 +83,16 @@ const CountriesSingle = () => {
     });
   }, [location.state.country.borders]);
 
-  useEffect(() => console.log("loading", loading), [loading]);
+  useEffect(() => {
+    axios
+      .get(
+        `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${encodeURI(
+          location.state.country.name.common
+        )}&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}`,
+        { headers: { "Access-Control-Allow-Origin": "*" } }
+      )
+      .then((data) => console.log(data.data));
+  }, [location.state.country]);
   useEffect(() => console.log("country changed", country), [country]);
 
   /*   useEffect(() => {
@@ -109,7 +127,14 @@ const CountriesSingle = () => {
   }
   return (
     <Container className="countries-single-container">
-      <Row className="m-5">
+      <Row className="m-5 mb-4 mt-5">
+        <Col>
+          <Button variant="light" onClick={() => navigate("/countries")}>
+            Back to countries list
+          </Button>
+        </Col>
+      </Row>
+      <Row className="m-5 mt-4">
         <Col>
           {
             <Image
@@ -134,26 +159,28 @@ const CountriesSingle = () => {
             </div>
           )}
           <h3>Borders:</h3>
-          <div>
+          <ListGroup>
             {borders
               ? borders.map((country) => (
-                  <NavLink
+                  <LinkContainer
                     to={`/countries/${country.name.common}`}
                     state={{ country: country }}
                   >
-                    <div>{country.name.common}</div>
-                  </NavLink>
+                    <ListGroupItem>{country.name.common}</ListGroupItem>
+                  </LinkContainer>
                 ))
               : "none"}
-          </div>
+          </ListGroup>
         </Col>
       </Row>
-      <Row>
-        <Col>
-          <Button variant="light" onClick={() => navigate("/countries")}>
-            Back
-          </Button>
-        </Col>
+      <Row className="m-5">
+        <iframe
+          title="GoogleMap"
+          height="350"
+          loading="lazy"
+          allowFullScreen
+          src={`https://www.google.com/maps/embed/v1/place?q=${country.capital}&zoom=10&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}`}
+        />
       </Row>
     </Container>
   );
