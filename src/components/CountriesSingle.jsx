@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
@@ -13,13 +13,19 @@ import {
 } from "react-bootstrap";
 import countryService from "../services/countries";
 import { LinkContainer } from "react-router-bootstrap";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+
+const google = window.google;
 
 const CountriesSingle = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { single } = useParams();
-  console.log("location", location);
-  console.log("single", single);
+  const center = useMemo(() => ({ lat: 44, lng: -80 }), []);
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY,
+  });
 
   //if (location) country = location.state.country;
 
@@ -28,6 +34,7 @@ const CountriesSingle = () => {
   const [loading, setLoading] = useState(true);
   const [country, setCountry] = useState(null);
   const [borders, setBorders] = useState(null);
+  const [photos, setPhotos] = useState(null);
 
   useEffect(() => {
     if (location.state.country) {
@@ -77,23 +84,79 @@ const CountriesSingle = () => {
       axios.get(`https://restcountries.com/v3.1/alpha/${code}`)
     );
     Promise.all(promises).then((values) => {
-      console.log(values);
-      console.log(values.map((country) => country.data[0]));
       setBorders(values.map((country) => country.data[0]));
     });
   }, [location.state.country.borders]);
 
+  const asyncPlaces = async (request) => {
+    const { places } = await google.maps.places.Place.findPlaceFromQuery(
+      request
+    );
+    return places;
+  };
+
+  const logPlaceDetails = (placeID) => {
+    var service = new google.maps.places.PlacesService(
+      document.getElementById("map")
+    );
+    service.getDetails(
+      {
+        placeId: placeID,
+      },
+      function (place, status) {
+        console.log("Place details, PHOTOS?", place);
+        setPhotos(
+          place.photos.map((pics) =>
+            pics.getUrl({ maxWidth: 350, maxHeight: 350 })
+          )
+        );
+      }
+    );
+  };
+
   useEffect(() => {
-    axios
+    /*axios
+       .get(
+        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURI(
+          location.state.country.name.common
+        )}&types=(regions)&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}`,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+          },
+        }
+      )
+      .then((data) => console.log("data!!!", data))
+      .catch((err) => console.log(err)); */
+    /* axios
       .get(
         `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${encodeURI(
           location.state.country.name.common
         )}&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}`,
         { headers: { "Access-Control-Allow-Origin": "*" } }
       )
-      .then((data) => console.log(data.data));
+      .then((data) => console.log(data.data)); */
+    /* axios
+      .get(
+        `https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJMVd4MymgVA0R99lHx5Y__Ws&fields=photo&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}`
+      )
+      .then((data) => console.log("places fetched!", data)); */
+    const request = {
+      query: location.state.country.name.common,
+      fields: ["displayName", "location"],
+    };
+    asyncPlaces(request).then((data) => {
+      console.log("HI", data);
+      console.log("HI", data[0].id);
+      const requestPhotos = {
+        placeId: data[0].id,
+        fields: ["photos"],
+      };
+      logPlaceDetails(data[0].id);
+    });
   }, [location.state.country]);
-  useEffect(() => console.log("country changed", country), [country]);
 
   /*   useEffect(() => {
     axios
@@ -111,7 +174,7 @@ const CountriesSingle = () => {
       });
   }, [country.capital]); */
 
-  if (loading) {
+  if (loading || !isLoaded) {
     return (
       <Col className="text-center m-5">
         <Spinner
@@ -133,6 +196,9 @@ const CountriesSingle = () => {
             Back to countries list
           </Button>
         </Col>
+      </Row>
+      <Row className="m-5">
+        {photos && photos.map((pic) => <Image alt="pic" src={pic} />)}
       </Row>
       <Row className="m-5 mt-4">
         <Col>
@@ -173,14 +239,23 @@ const CountriesSingle = () => {
           </ListGroup>
         </Col>
       </Row>
-      <Row className="m-5">
+      {/* <Row className="m-5">
         <iframe
           title="GoogleMap"
-          height="350"
+          height="550"
           loading="lazy"
           allowFullScreen
-          src={`https://www.google.com/maps/embed/v1/place?q=${country.capital}&zoom=10&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}`}
+          src={`https://www.google.com/maps/embed/v1/place?q=${country.capital}&zoom=5&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}`}
         />
+      </Row> */}
+
+      <Row className="m-5">
+        <GoogleMap
+          id="map"
+          zoom={10}
+          center={{ lat: 44, lng: -80 }}
+          mapContainerClassName="map-container"
+        ></GoogleMap>
       </Row>
     </Container>
   );

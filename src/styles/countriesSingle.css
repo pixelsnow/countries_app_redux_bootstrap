@@ -1,2 +1,6 @@
 .countries-single-container {
 }
+.map-container {
+  height: 400px;
+  width: 100vw;
+}
