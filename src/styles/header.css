@@ -1,7 +1,15 @@
 .navbar {
-  background-color: #f2ece4;
+  background-color: #000000;
   text-transform: uppercase;
   font-weight: 600;
+  color: white;
+}
+
+.navbar-nav a {
+  color: rgb(228, 155, 255);
+}
+
+.navbar-nav a:active {
 }
 
 .navbar-brand {

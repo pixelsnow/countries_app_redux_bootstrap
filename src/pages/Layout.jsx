@@ -13,7 +13,7 @@ const Layout = () => {
   return (
     <Container className="main-container" fluid>
       <Row>
-        <Navbar variant="light">
+        <Navbar variant="dark">
           <Container className="justify-content-end">
             <LinkContainer to="/">
               <Navbar.Brand>

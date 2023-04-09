@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Col, Container, Row, Image, Button, Spinner } from "react-bootstrap";
 import countryService from "../services/countries";
+import { LinkContainer } from "react-router-bootstrap";
 
 const CountriesSingle = () => {
   const location = useLocation();
@@ -41,8 +42,8 @@ const CountriesSingle = () => {
     } else {
       console.log("no state");
       countryService.getSingle(single).then((res) => {
-        country = res.data;
-        console.log("country fetched", res.data);
+        setCountry(res.data);
+
         axios
           .get(
             `https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
@@ -58,7 +59,7 @@ const CountriesSingle = () => {
           });
       });
     }
-  }, [country]);
+  }, [country, location.state.country, single]);
 
   useEffect(() => {
     const codes = location.state.country.borders;
@@ -68,8 +69,8 @@ const CountriesSingle = () => {
     );
     Promise.all(promises).then((values) => {
       console.log(values);
-      console.log(values.map((country) => country.data[0].name.common));
-      setBorders(values.map((country) => country.data[0].name.common));
+      console.log(values.map((country) => country.data[0]));
+      setBorders(values.map((country) => country.data[0]));
     });
   }, [location.state.country.borders]);
 
@@ -134,7 +135,16 @@ const CountriesSingle = () => {
           )}
           <h3>Borders:</h3>
           <div>
-            {borders ? borders.map((country) => <div>{country}</div>) : "none"}
+            {borders
+              ? borders.map((country) => (
+                  <NavLink
+                    to={`/countries/${country.name.common}`}
+                    state={{ country: country }}
+                  >
+                    <div>{country.name.common}</div>
+                  </NavLink>
+                ))
+              : "none"}
           </div>
         </Col>
       </Row>
