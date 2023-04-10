@@ -59,25 +59,25 @@ const Favourites = () => {
     return (
       <Container fluid>
         <Row>
-          <Col className="mt-5 d-flex justify-content-center">
+          <Col className="mt-5 d-flex justify-content-end">
+            <Button variant="custom" onClick={handleClearFavourites}>
+              Clear favourites
+            </Button>
+          </Col>
+          <Col className="mt-5 d-flex justify-content-start">
             <Form>
               <Form.Control
                 style={{ width: "18rem" }}
                 type="search"
-                className="me-2 "
-                placeholder="Search for countries"
+                className="me-2"
+                placeholder="Search favourites"
                 aria-label="Search"
                 onChange={(e) => setSearch(e.target.value)}
               />
             </Form>
           </Col>
         </Row>
-        <Row xs={2} md={3} lg={4} className=" g-3">
-          <Button variant="custom" onClick={handleClearFavourites}>
-            Clear favourites
-          </Button>
-        </Row>
-        <Row xs={2} md={3} lg={4} className=" g-3">
+        <Row xs={2} md={3} lg={4} className="g-3">
           {countriesList
             .filter(
               (c) =>

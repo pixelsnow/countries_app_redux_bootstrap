@@ -240,10 +240,8 @@ const CountriesSingle = () => {
         <Col>
           <Row className="country-title">
             <Col md="auto" className="coat-of-arms">
-              {country.coatOfArms.svg ? (
+              {country.coatOfArms.svg && (
                 <img src={country.coatOfArms.svg} alt="coatOfArms" />
-              ) : (
-                <img src={country.coatOfArms.png} alt="coatOfArms" />
               )}
             </Col>
             <Col md="auto" className="flag-container">
@@ -257,20 +255,21 @@ const CountriesSingle = () => {
               <h2 className="display-4">{country.name.common}</h2>
             </Col>
           </Row>
-
           <h3>Capital: {country.capital}</h3>
-          {!error && weather && (
-            <div>
-              <p>
-                Right now it is <strong>{weather.main.temp}</strong> degrees in{" "}
-                {country.capital} and {weather.weather[0].description}
-              </p>
-              <img
-                src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-                alt={weather.weather[0].description}
-              />
-            </div>
-          )}
+          <Row className="weather-container">
+            {!error && weather && (
+              <div>
+                <p>
+                  Right now it is <span>{weather.main.temp}</span> degrees in{" "}
+                  {country.capital} and {weather.weather[0].description}
+                </p>
+                <img
+                  src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+                  alt={weather.weather[0].description}
+                />
+              </div>
+            )}
+          </Row>
           <Row>
             <h3>Borders:</h3>
           </Row>
