@@ -1,11 +1,23 @@
 .countries-single-container {
 }
 .map-container {
-  height: 400px;
-  width: 100vw;
+}
+
+.map {
+  display: none;
+}
+
+.gallery {
+  gap: 1rem;
 }
 
 .gallery img {
-  max-width: 350px;
-  max-height: 350px;
+  padding: 0;
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
+}
+
+.country-single-title {
+  text-align: center;
 }

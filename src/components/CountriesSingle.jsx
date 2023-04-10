@@ -25,6 +25,7 @@ const CountriesSingle = () => {
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY,
+    libraries: ["places"],
   });
 
   //if (location) country = location.state.country;
@@ -89,16 +90,36 @@ const CountriesSingle = () => {
   }, [location.state.country.borders]);
 
   const asyncPlaces = async (request) => {
+    const google = window.google;
     const { places } = await google.maps.places.Place.findPlaceFromQuery(
       request
     );
     return places;
+
+    /* const service = new google.maps.places.PlacesService(
+      document.getElementById("map")
+    );
+    service.findPlaceFromQuery(request, (results, status) => {
+      console.log("results", results);
+      return results;
+    }); */
   };
 
   const logPlaceDetails = (placeID) => {
-    var service = new google.maps.places.PlacesService(
+    const service = new google.maps.places.PlacesService(
       document.getElementById("map")
     );
+    /* var request = {
+      query: 'Museum of Contemporary Art Australia',
+      fields: ['name', 'geometry',],
+    };  
+
+    service.findPlaceFromQuery(request, function(results, status) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        console.log('results!',results)
+      }
+    }); */
+
     service.getDetails(
       {
         placeId: placeID,
@@ -106,7 +127,7 @@ const CountriesSingle = () => {
       function (place, status) {
         setPhotos(
           place.photos.map((pics) =>
-            pics.getUrl({ maxWidth: 350, maxHeight: 350 })
+            pics.getUrl({ maxWidth: 500, maxHeight: 500 })
           )
         );
       }
@@ -114,6 +135,7 @@ const CountriesSingle = () => {
   };
 
   useEffect(() => {
+    console.log(google.maps);
     /*axios
        .get(
         `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURI(
@@ -142,16 +164,32 @@ const CountriesSingle = () => {
         `https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJMVd4MymgVA0R99lHx5Y__Ws&fields=photo&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}`
       )
       .then((data) => console.log("places fetched!", data)); */
+    /* const map = new google.maps.Map(document.getElementById("map"), {
+      center: sydney,
+      zoom: 15,
+    }); */
     const request = {
       query: location.state.country.name.common,
       fields: ["displayName", "location"],
     };
+
+    /*  const service = new google.maps.places.PlacesService(
+      document.getElementById("map")
+    );
+
+    service.findPlaceFromQuery(request, function (results, status) {
+      console.log("results!", results, status);
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        console.log("results!", results);
+      }
+    }); */
+
     asyncPlaces(request).then((data) => {
       console.log("ID", data[0].id);
-      const requestPhotos = {
+      /* const requestPhotos = {
         placeId: data[0].id,
         fields: ["photos"],
-      };
+      }; */
       logPlaceDetails(data[0].id);
     });
   }, [location.state.country]);
@@ -172,7 +210,7 @@ const CountriesSingle = () => {
       });
   }, [country.capital]); */
 
-  if (loading || !isLoaded) {
+  if (loading /* || !google || !google.maps  */ || !isLoaded) {
     return (
       <Col className="text-center m-5">
         <Spinner
@@ -195,20 +233,26 @@ const CountriesSingle = () => {
           </Button>
         </Col>
       </Row>
-      <Row className="m-5 gallery">
-        {photos && photos.map((pic) => <Image alt="pic" src={pic} key={pic} />)}
-      </Row>
+
       <Row className="m-5 mt-4">
-        <Col>
+        <Row className="count">
+          <h2 className="display-4">{country.name.common}</h2>
+        </Row>
+        <Row className="m-5 gallery">
+          {photos &&
+            photos
+              .slice(0, 6)
+              .map((pic) => <Image alt="pic" src={pic} key={pic} />)}
+        </Row>
+        {/* <Col>
           {
             <Image
               thumbnail
               src={`https://source.unsplash.com/featured/1600x900?${country.capital}`}
             />
           }
-        </Col>
-        <Col>
-          <h2 className="display-4">{country.name.common}</h2>
+        </Col> */}
+        <Row>
           <h3>{country.capital}</h3>
           {!error && weather && (
             <div>
@@ -236,9 +280,9 @@ const CountriesSingle = () => {
                 ))
               : "none"}
           </ListGroup>
-        </Col>
+        </Row>
       </Row>
-      {/* <Row className="m-5">
+      <Row className="m-5">
         <iframe
           title="GoogleMap"
           height="550"
@@ -246,7 +290,7 @@ const CountriesSingle = () => {
           allowFullScreen
           src={`https://www.google.com/maps/embed/v1/place?q=${country.capital}&zoom=5&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}`}
         />
-      </Row> */}
+      </Row>
 
       <Row className="m-5">
         <GoogleMap
