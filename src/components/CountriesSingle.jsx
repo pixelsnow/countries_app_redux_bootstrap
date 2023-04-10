@@ -215,8 +215,8 @@ const CountriesSingle = () => {
             .slice(0, 6)
             .map((pic) => <Image alt="pic" src={pic} key={pic} />)}
       </Row> */}
-      <Row className="m-5 mt-4">
-        <Col className="gallery">
+      <Row className="m-5 mt-4 main-country-row">
+        <Col md="auto" className="gallery">
           <Carousel interval={2000}>
             {photos &&
               photos.slice(0, 6).map((pic) => (
@@ -239,11 +239,18 @@ const CountriesSingle = () => {
         </Col> */}
         <Col>
           <Row className="country-title">
-            <Col md="auto" className="1 coat-of-arms">
+            <Col md="auto" className="coat-of-arms">
               {country.coatOfArms.svg ? (
                 <img src={country.coatOfArms.svg} alt="coatOfArms" />
               ) : (
                 <img src={country.coatOfArms.png} alt="coatOfArms" />
+              )}
+            </Col>
+            <Col md="auto" className="flag-container">
+              {country.flags.svg ? (
+                <img src={country.flags.svg} alt={country.flags.alt} />
+              ) : (
+                <img src={country.flags.png} alt={country.flags.alt} />
               )}
             </Col>
             <Col>
@@ -251,7 +258,7 @@ const CountriesSingle = () => {
             </Col>
           </Row>
 
-          <h3>{country.capital}</h3>
+          <h3>Capital: {country.capital}</h3>
           {!error && weather && (
             <div>
               <p>
@@ -264,8 +271,26 @@ const CountriesSingle = () => {
               />
             </div>
           )}
-          <h3>Borders:</h3>
-          <ListGroup>
+          <Row>
+            <h3>Borders:</h3>
+          </Row>
+          <Row className="borders-container" fluid>
+            {borders
+              ? borders.map((country) => (
+                  <Col className="border-container" md="auto">
+                    <LinkContainer
+                      to={`/countries/${country.name.common}`}
+                      state={{ country: country }}
+                      key={country.name.common}
+                    >
+                      <Button variant="custom">{country.name.common}</Button>
+                    </LinkContainer>
+                  </Col>
+                ))
+              : "none"}
+          </Row>
+
+          {/* <ListGroup>
             {borders
               ? borders.map((country) => (
                   <LinkContainer
@@ -277,7 +302,7 @@ const CountriesSingle = () => {
                   </LinkContainer>
                 ))
               : "none"}
-          </ListGroup>
+          </ListGroup> */}
         </Col>
       </Row>
       <Row className="m-5">

@@ -18,15 +18,15 @@ const Layout = () => {
   return (
     <Container className="main-container" fluid>
       <Row>
-        <Navbar variant="dark">
+        <Navbar collapseOnSelect expand="lg" variant="dark">
           <Container className="justify-content-end">
             <LinkContainer to="/">
-              <Navbar.Brand>
+              <Navbar.Brand className="ml-auto">
                 <Logo />
               </Navbar.Brand>
             </LinkContainer>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
               <Nav>
                 <LinkContainer to="/countries">
                   <Nav.Link>Countries</Nav.Link>
@@ -45,10 +45,10 @@ const Layout = () => {
                   </>
                 )}
               </Nav>
+              <Button variant="custom" onClick={logOut}>
+                Log out
+              </Button>
             </Navbar.Collapse>
-            <Button variant="custom" onClick={logOut}>
-              Log out
-            </Button>
           </Container>
         </Navbar>
       </Row>
