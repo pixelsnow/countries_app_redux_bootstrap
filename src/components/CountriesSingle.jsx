@@ -209,12 +209,12 @@ const CountriesSingle = () => {
           </Button>
         </Col>
       </Row>
-      <Row className="gallery">
+      {/* <Row className="gallery">
         {photos &&
           photos
             .slice(0, 6)
             .map((pic) => <Image alt="pic" src={pic} key={pic} />)}
-      </Row>
+      </Row> */}
       <Row className="m-5 mt-4">
         <Col className="gallery">
           <Carousel interval={2000}>
@@ -238,7 +238,19 @@ const CountriesSingle = () => {
           }
         </Col> */}
         <Col>
-          <h2 className="display-4">{country.name.common}</h2>
+          <Row className="country-title">
+            <Col md="auto" className="1 coat-of-arms">
+              {country.coatOfArms.svg ? (
+                <img src={country.coatOfArms.svg} alt="coatOfArms" />
+              ) : (
+                <img src={country.coatOfArms.png} alt="coatOfArms" />
+              )}
+            </Col>
+            <Col>
+              <h2 className="display-4">{country.name.common}</h2>
+            </Col>
+          </Row>
+
           <h3>{country.capital}</h3>
           {!error && weather && (
             <div>

@@ -18,11 +18,25 @@
   object-fit: cover;
 }
 
-.country-single-title {
-  text-align: center;
+.country-title {
+  display: flex;
+  align-items: center;
+}
+
+.country-title h2 {
 }
 
 .carousel {
   width: 500px;
   height: 500px;
+}
+
+.coat-of-arms {
+  width: 100px;
+  height: 100px;
+}
+
+.coat-of-arms img {
+  max-height: 100%;
+  max-width: 100%;
 }
