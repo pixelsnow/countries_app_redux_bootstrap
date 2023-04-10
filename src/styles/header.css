@@ -6,7 +6,7 @@
 }
 
 .navbar-nav a {
-  color: rgb(228, 155, 255);
+  color: rgb(255, 182, 229);
 }
 
 .navbar-nav a:active {
@@ -22,4 +22,9 @@
 .logo {
   height: 100%;
   width: 100%;
+}
+
+.navbar .btn-custom {
+  background-color: white;
+  color: black;
 }

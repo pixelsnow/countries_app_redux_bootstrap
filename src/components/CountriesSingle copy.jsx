@@ -10,14 +10,12 @@ import {
   Spinner,
   ListGroup,
   ListGroupItem,
-  Carousel,
-  CarouselItem,
 } from "react-bootstrap";
 import countryService from "../services/countries";
 import { LinkContainer } from "react-router-bootstrap";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 
-let google = window.google;
+const google = window.google;
 
 const CountriesSingle = () => {
   const location = useLocation();
@@ -26,8 +24,8 @@ const CountriesSingle = () => {
   const center = useMemo(() => ({ lat: 44, lng: -80 }), []);
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY /* ,
-    libraries: ["places"], */,
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY,
+    libraries: ["places"],
   });
 
   //if (location) country = location.state.country;
@@ -92,7 +90,7 @@ const CountriesSingle = () => {
   }, [location.state.country.borders]);
 
   const asyncPlaces = async (request) => {
-    if (!google) google = window.google;
+    const google = window.google;
     const { places } = await google.maps.places.Place.findPlaceFromQuery(
       request
     );
@@ -110,20 +108,15 @@ const CountriesSingle = () => {
       function (place, status) {
         setPhotos(
           place.photos.map((pics) =>
-            pics.getUrl({ maxWidth: 2000, maxHeight: 2000 })
+            pics.getUrl({ maxWidth: 500, maxHeight: 500 })
           )
         );
-        console.log("photos set");
       }
     );
   };
 
   useEffect(() => {
-    console.log("new photos set", photos);
-  }, [photos]);
-
-  useEffect(() => {
-    console.log("refetching photos", location.state.country.name.common);
+    console.log(google.maps);
     /*axios
        .get(
         `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURI(
@@ -168,7 +161,7 @@ const CountriesSingle = () => {
       }; */
       logPlaceDetails(data[0].id);
     });
-  }, [location.state.country, country]);
+  }, [location.state.country]);
 
   /*   useEffect(() => {
     axios
@@ -209,26 +202,17 @@ const CountriesSingle = () => {
           </Button>
         </Col>
       </Row>
-      <Row className="gallery">
-        {photos &&
-          photos
-            .slice(0, 6)
-            .map((pic) => <Image alt="pic" src={pic} key={pic} />)}
-      </Row>
-      <Row className="m-5 mt-4">
-        <Col className="gallery">
-          <Carousel interval={2000}>
-            {photos &&
-              photos.slice(0, 6).map((pic) => (
-                <CarouselItem>
-                  <div>
-                    <img alt="pic" src={pic} key={pic} />
-                  </div>
-                </CarouselItem>
-              ))}
-          </Carousel>
-        </Col>
 
+      <Row className="m-5 mt-4">
+        <Row className="count">
+          <h2 className="display-4">{country.name.common}</h2>
+        </Row>
+        <Row className="m-5 gallery">
+          {photos &&
+            photos
+              .slice(0, 6)
+              .map((pic) => <Image alt="pic" src={pic} key={pic} />)}
+        </Row>
         {/* <Col>
           {
             <Image
@@ -237,8 +221,7 @@ const CountriesSingle = () => {
             />
           }
         </Col> */}
-        <Col>
-          <h2 className="display-4">{country.name.common}</h2>
+        <Row>
           <h3>{country.capital}</h3>
           {!error && weather && (
             <div>
@@ -266,7 +249,7 @@ const CountriesSingle = () => {
                 ))
               : "none"}
           </ListGroup>
-        </Col>
+        </Row>
       </Row>
       <Row className="m-5">
         <iframe

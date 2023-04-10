@@ -8,16 +8,21 @@
 }
 
 .gallery {
-  gap: 1rem;
+  padding: 0;
 }
 
 .gallery img {
   padding: 0;
-  width: 350px;
-  height: 350px;
+  width: 500px;
+  height: 500px;
   object-fit: cover;
 }
 
 .country-single-title {
   text-align: center;
+}
+
+.carousel {
+  width: 500px;
+  height: 500px;
 }
