@@ -46,16 +46,13 @@ const CountriesSingle = () => {
           `https://api.openweathermap.org/data/2.5/weather?q=${location.state.country.capital[0]}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
         )
         .then((res) => {
-          console.log("weather data", res.data);
           setWeather(res.data);
           setLoading(false);
         })
         .catch((err) => {
-          console.log(err);
           setError(true);
         });
     } else {
-      console.log("no state");
       countryService.getSingle(single).then((res) => {
         setCountry(res.data);
 
@@ -64,12 +61,10 @@ const CountriesSingle = () => {
             `https://api.openweathermap.org/data/2.5/weather?q=${country.capital[0]}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
           )
           .then((res) => {
-            console.log(res.data);
             setWeather(res.data);
             setLoading(false);
           })
           .catch((err) => {
-            console.log();
             setError(true);
           });
       });
@@ -109,17 +104,11 @@ const CountriesSingle = () => {
             pics.getUrl({ maxWidth: 2000, maxHeight: 2000 })
           )
         );
-        console.log("photos set");
       }
     );
   };
 
   useEffect(() => {
-    console.log("new photos set", photos);
-  }, [photos]);
-
-  useEffect(() => {
-    console.log("refetching photos", location.state.country.name.common);
     /*axios
        .get(
         `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURI(
@@ -177,14 +166,12 @@ const CountriesSingle = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log();
         setError(true);
       });
   }, [country.capital]); */
 
   const epochToDate = (epoch) => {
     const d = new Date(epoch * 1000);
-    console.log(d);
     return (
       d.getHours().toString().padStart(2, "0") +
       ":" +

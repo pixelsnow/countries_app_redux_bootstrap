@@ -40,7 +40,6 @@ const CountriesSingle = () => {
   useEffect(() => {
     if (location.state.country) {
       /*  if (location.state.country) { */
-      console.log("state exists");
       setCountry(location.state.country);
       //setLoading(false);
       axios
@@ -48,16 +47,13 @@ const CountriesSingle = () => {
           `https://api.openweathermap.org/data/2.5/weather?q=${location.state.country.capital}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
         )
         .then((res) => {
-          console.log("weather data", res.data);
           setWeather(res.data);
           setLoading(false);
         })
         .catch((err) => {
-          console.log(err);
           setError(true);
         });
     } else {
-      console.log("no state");
       countryService.getSingle(single).then((res) => {
         setCountry(res.data);
 
@@ -66,12 +62,10 @@ const CountriesSingle = () => {
             `https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
           )
           .then((res) => {
-            console.log(res.data);
             setWeather(res.data);
             setLoading(false);
           })
           .catch((err) => {
-            console.log();
             setError(true);
           });
       });
@@ -174,7 +168,6 @@ const CountriesSingle = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log();
         setError(true);
       });
   }, [country.capital]); */

@@ -10,7 +10,7 @@ const Home = () => {
       .then((res) => {
         setFlags(res.data.map((country) => country.flags.svg));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => alert(err.message));
   }, []);
 
   return (

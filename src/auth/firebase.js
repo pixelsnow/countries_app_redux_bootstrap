@@ -37,11 +37,9 @@ let userCredential = undefined;
 
 const logInWithEmailAndPassword = async (email, password) => {
   try {
-    console.log("logging in...");
     userCredential = await signInWithEmailAndPassword(auth, email, password);
     return userCredential;
   } catch (err) {
-    console.log(err);
     alert(err.message);
   }
 };
@@ -64,7 +62,6 @@ const registerWithEmailAndPassword = async (name, email, password) => {
       uid: user.uid,
     });
   } catch (err) {
-    console.log(err);
     alert(err.message);
   }
 };

@@ -25,7 +25,7 @@ const Register = () => {
     if (loading) return;
     // If there is a user, we just navigate to home page
     if (user) navigate("/countries");
-    if (error) console.log(error);
+    if (error) alert(error.message);
   }, [user, loading, error, navigate]);
 
   return (
