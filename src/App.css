@@ -1,5 +1,10 @@
 .main-container {
-  background: linear-gradient(to bottom, #eabfd8, #e4dec6) no-repeat fixed;
+  background: linear-gradient(
+      to bottom,
+      var(--main-colour),
+      var(--secondary-colour)
+    )
+    no-repeat fixed;
   min-height: 100svh;
   padding: 0 0 1rem;
 }

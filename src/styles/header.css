@@ -1,11 +1,10 @@
 .navbar {
   background-color: #000000;
-
   color: white;
 }
 
 .navbar-nav a {
-  color: rgb(255, 182, 229);
+  color: var(--main-colour);
 }
 
 .navbar-nav a:active {
@@ -31,5 +30,5 @@
 
 .navbar .btn-custom:hover {
   border: none;
-  background-color: rgb(255, 193, 193);
+  background-color: var(--main-colour);
 }

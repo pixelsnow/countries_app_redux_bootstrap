@@ -1,11 +1,15 @@
 .home-container {
+  position: relative;
 }
 
 .all-flags {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .all-flags img {
-  width: 50px;
-  height: 30px;
+  max-width: 50px;
+  max-height: 30px;
   object-fit: cover;
 }

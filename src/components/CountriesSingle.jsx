@@ -43,7 +43,7 @@ const CountriesSingle = () => {
       //setLoading(false);
       axios
         .get(
-          `https://api.openweathermap.org/data/2.5/weather?q=${location.state.country.capital}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
+          `https://api.openweathermap.org/data/2.5/weather?q=${location.state.country.capital[0]}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
         )
         .then((res) => {
           console.log("weather data", res.data);
@@ -61,7 +61,7 @@ const CountriesSingle = () => {
 
         axios
           .get(
-            `https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
+            `https://api.openweathermap.org/data/2.5/weather?q=${country.capital[0]}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
           )
           .then((res) => {
             console.log(res.data);
@@ -215,18 +215,12 @@ const CountriesSingle = () => {
           </Button>
         </Col>
       </Row>
-      {/* <Row className="gallery">
-        {photos &&
-          photos
-            .slice(0, 6)
-            .map((pic) => <Image alt="pic" src={pic} key={pic} />)}
-      </Row> */}
       <Row className="m-5 mt-4 main-country-row">
         <Col md="auto" className="gallery">
           <Carousel interval={2000}>
             {photos &&
               photos.slice(0, 6).map((pic) => (
-                <CarouselItem>
+                <CarouselItem key={pic}>
                   <div>
                     <img alt="pic" src={pic} key={pic} />
                   </div>
@@ -234,7 +228,6 @@ const CountriesSingle = () => {
               ))}
           </Carousel>
         </Col>
-
         {/* <Col>
           {
             <Image
@@ -250,6 +243,9 @@ const CountriesSingle = () => {
                 <img src={country.coatOfArms.svg} alt="coatOfArms" />
               )}
             </Col>
+            <Col md="auto">
+              <h2 className="display-4">{country.name.common}</h2>
+            </Col>
             <Col md="auto" className="flag-container">
               {country.flags.svg ? (
                 <img src={country.flags.svg} alt={country.flags.alt} />
@@ -257,53 +253,11 @@ const CountriesSingle = () => {
                 <img src={country.flags.png} alt={country.flags.alt} />
               )}
             </Col>
-            <Col>
-              <h2 className="display-4">{country.name.common}</h2>
-            </Col>
-            <Col className="weather-container">
-              <h3>Current weather</h3>
-              {!error && weather && (
-                <div>
-                  <Row className="weather-main-info-container">
-                    <Col md="auto">
-                      <img
-                        src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-                        alt={weather.weather[0].description}
-                      />
-                    </Col>
-                    <Col>
-                      <p>
-                        Right now it is <span> {weather.main.temp}°C </span>{" "}
-                        degrees in {country.capital} and{" "}
-                        {weather.weather[0].description}
-                      </p>
-                    </Col>
-                  </Row>
-                  <Row className="weather-item-container" fluid>
-                    <Col className="weather-item" md="auto">
-                      <i class="bi bi-wind"></i> {weather.wind.speed}m/s
-                    </Col>
-                    <Col className="weather-item" md="auto">
-                      <i class="bi bi-moisture"></i> {weather.main.humidity}%
-                    </Col>
-
-                    <Col className="weather-item" md="auto">
-                      <i class="bi bi-sunrise"></i>{" "}
-                      {epochToDate(weather.sys.sunrise)}
-                    </Col>
-                    <Col className="weather-item" md="auto">
-                      <i class="bi bi-sunset"></i>{" "}
-                      {epochToDate(weather.sys.sunset)}
-                    </Col>
-                  </Row>
-                </div>
-              )}
-            </Col>
           </Row>
           <Col>
             <Row className="country-info">
               <Col>
-                Capital: <span>{country.capital}</span>{" "}
+                Capital: <span>{country.capital.join(" ,")}</span>{" "}
               </Col>
             </Row>
             <Row className="country-info">
@@ -319,37 +273,72 @@ const CountriesSingle = () => {
             </Row>
           </Col>
 
-          <Row>
-            <h3>Countries bordering {country.name.common}</h3>
+          <Row className="borders-heading">
+            {borders ? (
+              <h3>Countries bordering {country.name.common}</h3>
+            ) : (
+              <h3>{country.name.common} doesn't border any countries</h3>
+            )}
           </Row>
-          <Row className="borders-container" fluid>
-            {borders
-              ? borders.map((country) => (
-                  <Col className="border-container" md="auto">
-                    <LinkContainer
-                      to={`/countries/${country.name.common}`}
-                      state={{ country: country }}
-                      key={country.name.common}
-                    >
-                      <Button variant="custom">{country.name.common}</Button>
-                    </LinkContainer>
-                  </Col>
-                ))
-              : "none"}
-          </Row>
-          {/* <ListGroup>
-            {borders
-              ? borders.map((country) => (
+          <Row className="borders-container" fluid="true">
+            {borders &&
+              borders.map((country) => (
+                <Col
+                  key={country.name.common}
+                  className="border-container"
+                  md="auto"
+                >
                   <LinkContainer
                     to={`/countries/${country.name.common}`}
                     state={{ country: country }}
                     key={country.name.common}
                   >
-                    <ListGroupItem>{country.name.common}</ListGroupItem>
+                    <Button variant="custom">{country.name.common}</Button>
                   </LinkContainer>
-                ))
-              : "none"}
-          </ListGroup> */}
+                </Col>
+              ))}
+          </Row>
+        </Col>
+        <Col md="auto">
+          <div className="weather-container">
+            <h3>Current weather</h3>
+            {!error && weather && (
+              <>
+                <Row className="weather-main-info-container">
+                  <Col md="auto">
+                    <img
+                      src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+                      alt={weather.weather[0].description}
+                    />
+                  </Col>
+                  <Col>
+                    <p>
+                      Right now it is <span> {weather.main.temp}°C </span>{" "}
+                      degrees in {country.capital[0]} and{" "}
+                      {weather.weather[0].description}
+                    </p>
+                  </Col>
+                </Row>
+                <Row className="weather-item-container" fluid="true">
+                  <Col className="weather-item" md="auto">
+                    <i className="bi bi-wind"></i> {weather.wind.speed}m/s
+                  </Col>
+                  <Col className="weather-item" md="auto">
+                    <i className="bi bi-moisture"></i> {weather.main.humidity}%
+                  </Col>
+
+                  <Col className="weather-item" md="auto">
+                    <i className="bi bi-sunrise"></i>{" "}
+                    {epochToDate(weather.sys.sunrise)}
+                  </Col>
+                  <Col className="weather-item" md="auto">
+                    <i className="bi bi-sunset"></i>{" "}
+                    {epochToDate(weather.sys.sunset)}
+                  </Col>
+                </Row>
+              </>
+            )}
+          </div>
         </Col>
       </Row>
       <Row className="m-5">

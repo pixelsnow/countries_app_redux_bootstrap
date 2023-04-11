@@ -15,7 +15,6 @@ import {
   fetchFavourites,
   setFavourites,
 } from "../features/countries/favouritesSlice";
-import { NavLink } from "react-router-dom";
 
 const Countries = () => {
   const dispatch = useDispatch();
@@ -85,7 +84,8 @@ const Countries = () => {
                   </div>
 
                   <Card.Body className="d-flex flex-column">
-                    <NavLink
+                    <LinkContainer
+                      className="card-link-container"
                       to={`/countries/${country.name.common}`}
                       state={{ country: country }}
                     >
@@ -99,7 +99,7 @@ const Countries = () => {
                           alt={country.name.common}
                         />
                       </div>
-                    </NavLink>
+                    </LinkContainer>
                     <ListGroup
                       variant="flush"
                       className="flex-grow-1 justify-content-end"

@@ -15,7 +15,8 @@ const Register = () => {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
 
-  const register = () => {
+  const register = (e) => {
+    e.preventDefault();
     if (!name) alert("Please enter name");
     registerWithEmailAndPassword(name, email, password);
   };

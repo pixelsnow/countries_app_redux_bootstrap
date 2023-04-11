@@ -23,7 +23,7 @@ const Home = () => {
       </div>
       <div className="all-flags">
         {flags.map((flag) => (
-          <img key={flag} src={flag} />
+          <img alt="flag" key={flag} src={flag} />
         ))}
       </div>
     </div>

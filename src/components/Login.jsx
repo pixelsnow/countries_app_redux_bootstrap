@@ -25,14 +25,10 @@ const Login = () => {
     if (error) console.log(error);
   }, [user, loading, error, navigate]);
 
-  const logInHandler = async () => {
-    console.log("logging in...");
+  const logInHandler = async (e) => {
+    e.preventDefault();
     await logInWithEmailAndPassword(email, password);
     dispatch(fetchFavourites());
-    /* const docRef = doc(db, "favourites", userCredential.user.uid);
-    const docSnap = await getDoc(docRef);
-    console.log("RES", docSnap.data());
-    dispatch(setFavourites(docSnap.data().faves)); */
   };
 
   return (

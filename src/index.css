@@ -1,3 +1,8 @@
+:root {
+  --main-colour: rgb(255, 187, 187);
+  --secondary-colour: white;
+}
+
 * {
   margin: 0;
   padding: 0;

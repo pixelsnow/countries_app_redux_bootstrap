@@ -11,9 +11,6 @@ let userId;
 onAuthStateChanged(auth, (user) => {
   if (user) {
     userId = user.uid;
-    console.log("SLICE auth state changed, user:", user);
-  } else {
-    console.log("SLICE auth state changed, sign out");
   }
 });
 
