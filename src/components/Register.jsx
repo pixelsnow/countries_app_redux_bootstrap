@@ -5,6 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
 import { auth, registerWithEmailAndPassword } from "../auth/firebase";
+import { Form } from "react-bootstrap";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -27,28 +28,35 @@ const Register = () => {
   }, [user, loading, error, navigate]);
 
   return (
-    <div>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Full name"
-      />
-      <input
-        type="text"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-      />
-      <Button onClick={register}>Register</Button>
-      <div>
-        Already have an account? <Link to="/login">Login</Link> now.
+    <div className="form-wrapper">
+      <div className="form-container">
+        <h1>Register</h1>
+        <Form className="form">
+          <Form.Control
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Full name"
+          />
+          <Form.Control
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+          />
+          <Form.Control
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+          />
+          <Button type="submit" variant="custom" onClick={register}>
+            Register
+          </Button>
+        </Form>
+        <div>
+          Already have an account? <Link to="/login">Login</Link> now.
+        </div>
       </div>
     </div>
   );

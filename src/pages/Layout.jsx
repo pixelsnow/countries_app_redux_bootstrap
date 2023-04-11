@@ -44,15 +44,17 @@ const Layout = () => {
                     </LinkContainer>
                   </>
                 )}
+                {user && (
+                  <Button variant="custom" onClick={logOut}>
+                    Log out
+                  </Button>
+                )}
               </Nav>
-              <Button variant="custom" onClick={logOut}>
-                Log out
-              </Button>
             </Navbar.Collapse>
           </Container>
         </Navbar>
       </Row>
-      <Row>
+      <Row className="body-container">
         <Outlet />
       </Row>
     </Container>

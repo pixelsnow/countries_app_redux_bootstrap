@@ -6,9 +6,9 @@ import { Button } from "react-bootstrap";
 
 import { auth, logInWithEmailAndPassword } from "../auth/firebase";
 import { useDispatch } from "react-redux";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../auth/firebase";
+
 import { fetchFavourites } from "../features/countries/favouritesSlice";
+import { Form } from "react-bootstrap";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -36,24 +36,29 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-      />
-      <Button variant="custom" onClick={logInHandler}>
-        Log in
-      </Button>
-      <div>
-        Don't have an account? <Link to="/register">Sign up</Link> now.
+    <div className="form-wrapper">
+      <div className="form-container">
+        <h1>Login</h1>
+        <Form className="form">
+          <Form.Control
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+          />
+          <Form.Control
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+          />
+          <Button type="submit" variant="custom" onClick={logInHandler}>
+            Log in
+          </Button>
+        </Form>
+        <div>
+          Don't have an account? <Link to="/register">Sign up</Link> now.
+        </div>
       </div>
     </div>
   );

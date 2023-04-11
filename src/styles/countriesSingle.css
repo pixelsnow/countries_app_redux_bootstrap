@@ -73,6 +73,7 @@
   border-radius: 1rem;
   padding: 1rem;
   margin: 1rem 0;
+  max-width: 500px;
 }
 
 .weather-container img {
@@ -83,4 +84,32 @@
 .weather-container span {
   font-weight: 600;
   font-size: 1.5rem;
+}
+
+.weather-container p {
+}
+
+.weather-container i {
+  font-size: 1.5rem;
+}
+
+.weather-main-info-container {
+  background-color: rgb(228, 228, 228);
+  border-radius: 1rem;
+  align-items: center;
+}
+.weather-item-container {
+  margin-top: 0.5rem;
+  justify-content: space-around;
+}
+.weather-item {
+}
+
+.country-info {
+  background-color: antiquewhite;
+  display: flex;
+}
+
+.country-info span {
+  font-weight: 600;
 }

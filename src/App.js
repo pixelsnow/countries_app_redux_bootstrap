@@ -28,6 +28,7 @@ import "./styles/countriesSingle.css";
 import "./styles/home.css";
 import "./styles/form.css";
 import "./styles/header.css";
+import "./styles/forms.css";
 
 const App = () => {
   const auth = getAuth();

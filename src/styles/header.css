@@ -1,7 +1,6 @@
 .navbar {
   background-color: #000000;
-  text-transform: uppercase;
-  font-weight: 600;
+
   color: white;
 }
 
@@ -27,4 +26,10 @@
 .navbar .btn-custom {
   background-color: white;
   color: black;
+  border: none;
+}
+
+.navbar .btn-custom:hover {
+  border: none;
+  background-color: rgb(255, 193, 193);
 }

@@ -1,21 +1,18 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   Col,
   Container,
   Row,
-  Image,
   Button,
   Spinner,
-  ListGroup,
-  ListGroupItem,
   Carousel,
   CarouselItem,
 } from "react-bootstrap";
 import countryService from "../services/countries";
 import { LinkContainer } from "react-router-bootstrap";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 
 let google = window.google;
 
@@ -23,7 +20,6 @@ const CountriesSingle = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { single } = useParams();
-  const center = useMemo(() => ({ lat: 44, lng: -80 }), []);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY /* ,
@@ -186,6 +182,16 @@ const CountriesSingle = () => {
       });
   }, [country.capital]); */
 
+  const epochToDate = (epoch) => {
+    const d = new Date(epoch * 1000);
+    console.log(d);
+    return (
+      d.getHours().toString().padStart(2, "0") +
+      ":" +
+      d.getMinutes().toString().padStart(2, "0")
+    );
+  };
+
   if (loading /* || !google || !google.maps  */ || !isLoaded) {
     return (
       <Col className="text-center m-5">
@@ -254,24 +260,67 @@ const CountriesSingle = () => {
             <Col>
               <h2 className="display-4">{country.name.common}</h2>
             </Col>
+            <Col className="weather-container">
+              <h3>Current weather</h3>
+              {!error && weather && (
+                <div>
+                  <Row className="weather-main-info-container">
+                    <Col md="auto">
+                      <img
+                        src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+                        alt={weather.weather[0].description}
+                      />
+                    </Col>
+                    <Col>
+                      <p>
+                        Right now it is <span> {weather.main.temp}°C </span>{" "}
+                        degrees in {country.capital} and{" "}
+                        {weather.weather[0].description}
+                      </p>
+                    </Col>
+                  </Row>
+                  <Row className="weather-item-container" fluid>
+                    <Col className="weather-item" md="auto">
+                      <i class="bi bi-wind"></i> {weather.wind.speed}m/s
+                    </Col>
+                    <Col className="weather-item" md="auto">
+                      <i class="bi bi-moisture"></i> {weather.main.humidity}%
+                    </Col>
+
+                    <Col className="weather-item" md="auto">
+                      <i class="bi bi-sunrise"></i>{" "}
+                      {epochToDate(weather.sys.sunrise)}
+                    </Col>
+                    <Col className="weather-item" md="auto">
+                      <i class="bi bi-sunset"></i>{" "}
+                      {epochToDate(weather.sys.sunset)}
+                    </Col>
+                  </Row>
+                </div>
+              )}
+            </Col>
           </Row>
-          <h3>Capital: {country.capital}</h3>
-          <Row className="weather-container">
-            {!error && weather && (
-              <div>
-                <p>
-                  Right now it is <span>{weather.main.temp}</span> degrees in{" "}
-                  {country.capital} and {weather.weather[0].description}
-                </p>
-                <img
-                  src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-                  alt={weather.weather[0].description}
-                />
-              </div>
-            )}
-          </Row>
+          <Col>
+            <Row className="country-info">
+              <Col>
+                Capital: <span>{country.capital}</span>{" "}
+              </Col>
+            </Row>
+            <Row className="country-info">
+              <Col>
+                Area: <span>{country.area.toLocaleString("fi-FI")}</span> km²{" "}
+              </Col>
+            </Row>
+            <Row className="country-info">
+              <Col>
+                Population:{" "}
+                <span>{country.population.toLocaleString("fi-FI")}</span>{" "}
+              </Col>
+            </Row>
+          </Col>
+
           <Row>
-            <h3>Borders:</h3>
+            <h3>Countries bordering {country.name.common}</h3>
           </Row>
           <Row className="borders-container" fluid>
             {borders
@@ -288,7 +337,6 @@ const CountriesSingle = () => {
                 ))
               : "none"}
           </Row>
-
           {/* <ListGroup>
             {borders
               ? borders.map((country) => (

@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import countryService from "../../services/countries";
-import { auth, db } from "../../auth/firebase";
 
 export const countriesSlice = createSlice({
   name: "countries",

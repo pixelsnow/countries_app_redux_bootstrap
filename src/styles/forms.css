@@ -1,0 +1,23 @@
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.form-container {
+  max-width: 500px;
+  background-color: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin: 2rem 0;
+}
+
+.form input {
+  border: 1px solid black;
+}
