@@ -53,8 +53,8 @@
 }
 
 .coat-of-arms {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   display: flex;
   align-items: center;
 }
@@ -67,8 +67,8 @@
 }
 
 .flag-container {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   display: flex;
   align-items: center;
 }
