@@ -1,6 +1,7 @@
 .countries-single-container {
   padding: 1rem;
 }
+
 .back-button-container {
   padding: 0;
 }
@@ -8,6 +9,7 @@
 .main-country-row {
   gap: 3rem;
 }
+
 .map-container-container {
   border-radius: 1rem;
   overflow: hidden;

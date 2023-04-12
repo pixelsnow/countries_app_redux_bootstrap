@@ -1,11 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-
 import { db, auth } from "../../auth/firebase";
 
-// userId will hold uid
-//const auth = getAuth();
 let userId;
 // Observer
 onAuthStateChanged(auth, (user) => {

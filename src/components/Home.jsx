@@ -1,15 +1,20 @@
+// React
 import { useEffect } from "react";
 
-import { useAuthState } from "react-firebase-hooks/auth";
-import { getAuth } from "firebase/auth";
-import { LinkContainer } from "react-router-bootstrap";
+// Redux
 import { initializeCountries } from "../features/countries/countriesSlice";
 import { useDispatch, useSelector } from "react-redux";
 
+// Firebase
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getAuth } from "firebase/auth";
+
+// Bootstrap
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
+import LinkContainer from "react-router-bootstrap/LinkContainer";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -22,7 +27,20 @@ const Home = () => {
 
   const auth = getAuth();
   const [user] = useAuthState(auth);
-  if (loading) return <Spinner animation="border" />;
+
+  if (loading)
+    return (
+      <Col className="text-center m-5">
+        <Spinner
+          animation="border"
+          role="status"
+          className="center"
+          variant="info"
+        >
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </Col>
+    );
   return (
     <Col>
       <Row>

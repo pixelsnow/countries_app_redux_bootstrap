@@ -1,7 +1,7 @@
-// React imports
+// React
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-// Firebase imports
+// Firebase
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 

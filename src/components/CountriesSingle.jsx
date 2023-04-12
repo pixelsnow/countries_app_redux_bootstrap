@@ -1,6 +1,9 @@
+// React
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+
+// Axios
+import axios from "axios";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +19,7 @@ import Carousel from "react-bootstrap/Carousel";
 import CarouselItem from "react-bootstrap/CarouselItem";
 import LinkContainer from "react-router-bootstrap/LinkContainer";
 
-// Services
+// Custom services
 import countryService from "../services/countries";
 
 // Google API
@@ -29,13 +32,15 @@ const CountriesSingle = () => {
   const navigate = useNavigate();
   const { single } = useParams();
 
+  // Loading google map script
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY,
     libraries,
   });
-
+  // Setting reference to the map
   const mapRef = React.useRef();
 
+  // States
   const [error, setError] = useState(false);
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -44,6 +49,7 @@ const CountriesSingle = () => {
   const [photos, setPhotos] = useState([]);
   const [center, setCenter] = useState(null);
 
+  // Redux setup
   const dispatch = useDispatch();
   let favouritesList = useSelector((state) => state.favourites.favourites);
 
@@ -57,6 +63,7 @@ const CountriesSingle = () => {
     dispatch(setFavourites(newList));
   };
 
+  // Fetching information about the country and the capital (coordinates, photos) from Google Places Service
   const onMapLoad = (map) => {
     mapRef.current = map;
     const requestCountry = {
@@ -98,6 +105,7 @@ const CountriesSingle = () => {
     });
   };
 
+  // make sure that when the country is updated information is fetched again
   useEffect(() => {
     if (isLoaded && country && mapRef.current) {
       onMapLoad(mapRef.current);
@@ -121,6 +129,7 @@ const CountriesSingle = () => {
           setLoading(false);
         });
     } else {
+      // In case there was no location.state passed, fetch country
       countryService.getSingle(single).then((res) => {
         setCountry(res.data);
         axios
@@ -133,11 +142,13 @@ const CountriesSingle = () => {
           })
           .catch((err) => {
             setError(true);
+            setLoading(false);
           });
       });
     }
   }, [country, location.state.country, single]);
 
+  // Fetch bordering countries to enable links and full country names
   useEffect(() => {
     const codes = location.state.country.borders;
     if (!codes) return;
@@ -149,6 +160,7 @@ const CountriesSingle = () => {
     });
   }, [location.state.country.borders]);
 
+  // Converts epoch date to a time string, allowing sunrise and sunset times from Weather API to be human-readable
   const epochToDate = (epoch) => {
     const d = new Date(epoch * 1000);
     return (

@@ -1,19 +1,23 @@
+// React
 import React, { useState, useEffect } from "react";
 
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchFavourites,
+  setFavourites,
+} from "../features/countries/favouritesSlice";
+import { initializeCountries } from "../features/countries/countriesSlice";
+
+// Bootstrap
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/Row";
-import { useDispatch, useSelector } from "react-redux";
-import { LinkContainer } from "react-router-bootstrap";
-import { initializeCountries } from "../features/countries/countriesSlice";
 import { Spinner } from "react-bootstrap";
-import {
-  fetchFavourites,
-  setFavourites,
-} from "../features/countries/favouritesSlice";
+import { LinkContainer } from "react-router-bootstrap";
 
 const Countries = () => {
   const dispatch = useDispatch();
@@ -37,7 +41,19 @@ const Countries = () => {
     dispatch(setFavourites(newList));
   };
 
-  if (loading) return <Spinner animation="border" />;
+  if (loading)
+    return (
+      <Col className="text-center m-5">
+        <Spinner
+          animation="border"
+          role="status"
+          className="center"
+          variant="info"
+        >
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </Col>
+    );
   else
     return (
       <Container className="cards-container" fluid>

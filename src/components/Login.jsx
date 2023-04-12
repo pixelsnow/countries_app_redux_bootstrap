@@ -1,19 +1,22 @@
+// React
 import React, { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate, Link } from "react-router-dom";
 
-import { auth, logInWithEmailAndPassword } from "../auth/firebase";
+// Redux
 import { useDispatch } from "react-redux";
-
 import { fetchFavourites } from "../features/countries/favouritesSlice";
 
+// Firebase
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, logInWithEmailAndPassword } from "../auth/firebase";
+
+// Bootstrap
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // This hook will store the user for us
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();

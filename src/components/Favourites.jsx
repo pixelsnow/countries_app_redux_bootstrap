@@ -1,5 +1,15 @@
+// React
 import React, { useState, useEffect } from "react";
 
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import {
+  initializeCountries,
+  isLoading,
+} from "../features/countries/countriesSlice";
+import { setFavourites } from "../features/countries/favouritesSlice";
+
+// Bootstrap
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -8,21 +18,14 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/Row";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
-
-import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
-import {
-  initializeCountries,
-  isLoading,
-} from "../features/countries/countriesSlice";
-import { setFavourites } from "../features/countries/favouritesSlice";
 
 const Favourites = () => {
   const dispatch = useDispatch();
-
   let countriesList = useSelector((state) => state.countries.countries);
   const loading = useSelector((state) => state.countries.isLoading);
   const favouritesList = useSelector((state) => state.favourites.favourites);
+
   const [search, setSearch] = useState("");
 
   if (favouritesList !== null) {
@@ -53,7 +56,19 @@ const Favourites = () => {
     dispatch(setFavourites(newList));
   };
 
-  if (loading) return <Spinner animation="border" />;
+  if (loading)
+    return (
+      <Col className="text-center m-5">
+        <Spinner
+          animation="border"
+          role="status"
+          className="center"
+          variant="info"
+        >
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </Col>
+    );
   else
     return (
       <Container className="cards-container" fluid>

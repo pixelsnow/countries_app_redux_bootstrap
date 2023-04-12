@@ -1,9 +1,12 @@
+// React
 import React, { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate, Link } from "react-router-dom";
 
+// Firebase
+import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, registerWithEmailAndPassword } from "../auth/firebase";
 
+// Bootstrap
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
