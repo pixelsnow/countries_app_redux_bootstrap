@@ -75,9 +75,8 @@ const Home = () => {
         <Col className="home-content">
           <h1>Welcome to countries app</h1>
           <p>
-            This is a simple React application that allows you to explore the
-            world. Build by{" "}
-            <a href="https://github.com/pixelsnow">Valeria Vagapova</a>
+            A simple React application that allows you to explore the world.
+            Built by <a href="https://github.com/pixelsnow">Valeria Vagapova</a>
           </p>
           {!user && (
             <div className="call-to-action">
