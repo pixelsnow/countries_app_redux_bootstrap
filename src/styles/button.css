@@ -2,11 +2,11 @@
   background-color: black;
   color: white;
   border-radius: 100rem;
-  transition: 0.3s;
+  transition: 0.2s;
   border: none;
 }
 
 .btn-custom:hover {
-  background-color: var(--main-colour);
-  color: black;
+  color: var(--main-colour);
+  background-color: black;
 }

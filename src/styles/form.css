@@ -1,6 +1,10 @@
+.form-container {
+  margin-top: 2rem;
+}
+
 .form-control {
   border-radius: 100rem;
-  border: none;
+  border: 1px solid black;
   min-width: 20rem;
 }
 

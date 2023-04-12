@@ -45,7 +45,12 @@ const Countries = () => {
     return (
       <Container fluid>
         <Row>
-          <Col className="mt-5 d-flex justify-content-center">
+          <Col className="mt-3 d-flex justify-content-center">
+            <h1>All countries</h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col className="mt-3 d-flex justify-content-center">
             <Form>
               <Form.Control
                 type="search"

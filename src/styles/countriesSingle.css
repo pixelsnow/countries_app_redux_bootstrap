@@ -29,7 +29,8 @@
   align-items: center;
 }
 
-.country-title h2 {
+.country-title {
+  margin-bottom: 1.5rem;
 }
 
 .carousel {
@@ -40,6 +41,8 @@
 .coat-of-arms {
   width: 100px;
   height: 100px;
+  display: flex;
+  align-items: center;
 }
 
 .coat-of-arms img {

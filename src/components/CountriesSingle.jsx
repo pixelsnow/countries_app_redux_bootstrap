@@ -228,11 +228,11 @@ const CountriesSingle = () => {
         </Col> */}
         <Col>
           <Row className="country-title">
-            <Col md="auto" className="coat-of-arms">
-              {country.coatOfArms.svg && (
-                <img src={country.coatOfArms.svg} alt="coatOfArms" />
-              )}
-            </Col>
+            {country.coatOfArms && country.coatOfArms.svg && (
+              <Col md="auto" className="coat-of-arms">
+                <img src={country.coatOfArms.svg} alt="coat of arms" />
+              </Col>
+            )}
             <Col md="auto">
               <h2 className="display-4">{country.name.common}</h2>
             </Col>

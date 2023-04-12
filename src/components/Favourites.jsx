@@ -59,12 +59,17 @@ const Favourites = () => {
     return (
       <Container fluid>
         <Row>
-          <Col className="mt-5 d-flex justify-content-end">
+          <Col className="mt-3 d-flex justify-content-center">
+            <h1>Favourites</h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col className="mt-3 d-flex justify-content-end">
             <Button variant="custom" onClick={handleClearFavourites}>
               Clear favourites
             </Button>
           </Col>
-          <Col className="mt-5 d-flex justify-content-start">
+          <Col className="mt-3 d-flex justify-content-start">
             <Form>
               <Form.Control
                 style={{ width: "18rem" }}

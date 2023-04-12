@@ -3,6 +3,9 @@
   color: white;
 }
 
+.navbar-nav {
+  gap: 1rem;
+}
 .navbar-nav a {
   color: var(--main-colour);
 }
@@ -15,6 +18,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 2rem;
 }
 
 .logo {
