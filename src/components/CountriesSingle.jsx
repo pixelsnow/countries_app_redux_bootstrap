@@ -91,6 +91,12 @@ const CountriesSingle = () => {
               place.photos
             ) {
               console.log("fetched photos...");
+              console.log(
+                "setting to",
+                place.photos.map((pics) =>
+                  pics.getUrl({ maxWidth: 2000, maxHeight: 2000 })
+                )
+              );
               setPhotos(
                 place.photos.map((pics) =>
                   pics.getUrl({ maxWidth: 2000, maxHeight: 2000 })
@@ -99,8 +105,6 @@ const CountriesSingle = () => {
               /* fetchedPhotos = place.photos.map((pics) =>
                 pics.getUrl({ maxWidth: 2000, maxHeight: 2000 })
               ); */
-            } else {
-              setPhotos([]);
             }
           }
         );
