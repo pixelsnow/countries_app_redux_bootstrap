@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import countryService from "../services/countries";
 import { LinkContainer } from "react-router-bootstrap";
-import { GoogleMap, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 
 const libraries = ["places"];
 
@@ -26,6 +26,8 @@ const CountriesSingle = () => {
     libraries,
   });
 
+  const mapRef = React.useRef();
+
   const [error, setError] = useState(false);
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -35,23 +37,34 @@ const CountriesSingle = () => {
   const [center, setCenter] = useState(null);
 
   const onMapLoad = (map) => {
-    const request = {
-      query: country.name.common,
-      fields: ["place_id", "geometry"],
+    mapRef.current = map;
+    setCountry(location.state.country);
+
+    const requestCountry = {
+      query: country.name.official,
+      fields: ["place_id", "name", "geometry"],
+    };
+    const requestCapital = {
+      query: country.capital[0] + ", " + country.name.official,
+      fields: ["place_id", "name", "geometry"],
     };
 
     const service = new window.google.maps.places.PlacesService(map);
 
-    service.findPlaceFromQuery(request, (results, status) => {
+    service.findPlaceFromQuery(requestCountry, (results, status) => {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+        console.log("RESULTS is ", results);
         console.log("RESULTS[0] is ", results[0]);
-        setCenter(results[0].geometry.location);
         service.getDetails(
           {
             placeId: results[0].place_id,
           },
           (place, status) => {
-            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+            if (
+              status === window.google.maps.places.PlacesServiceStatus.OK &&
+              place.photos
+            ) {
+              console.log("place", place);
               setPhotos(
                 place.photos.map((pics) =>
                   pics.getUrl({ maxWidth: 2000, maxHeight: 2000 })
@@ -66,7 +79,25 @@ const CountriesSingle = () => {
         console.log("getting id failed, status is:", status);
       }
     });
+    service.findPlaceFromQuery(requestCapital, (results, status) => {
+      if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+        console.log("RESULTS[0] for capital is ", results[0]);
+        setCenter(results[0].geometry.location);
+      } else {
+        console.log("getting id failed, status is:", status);
+      }
+    });
   };
+
+  useEffect(() => {
+    if (isLoaded && country && mapRef.current) {
+      console.log("called from useEffect");
+      console.log("REF", mapRef.current);
+      console.log("country", country);
+      onMapLoad(mapRef.current);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [country, isLoaded, mapRef]);
 
   useEffect(() => {
     if (location.state.country) {
@@ -141,7 +172,7 @@ const CountriesSingle = () => {
   return (
     <Container className="countries-single-container">
       <Row className="m-5 mb-4 mt-2">
-        <Col>
+        <Col className="back-button-container">
           <Button variant="custom" onClick={() => navigate("/countries")}>
             <i className="bi bi-arrow-left"></i> Back to countries list
           </Button>
@@ -162,14 +193,6 @@ const CountriesSingle = () => {
             </Carousel>
           )}
         </Col>
-        {/* <Col>
-          {
-            <Image
-              thumbnail
-              src={`https://source.unsplash.com/featured/1600x900?${country.capital}`}
-            />
-          }
-        </Col> */}
         <Col>
           <Row className="country-title">
             {country.coatOfArms && country.coatOfArms.svg && (
@@ -285,7 +308,9 @@ const CountriesSingle = () => {
           zoom={6}
           mapContainerClassName="map-container"
           center={center}
-        />
+        >
+          {center && <Marker position={center}></Marker>}
+        </GoogleMap>
       </Row>
     </Container>
   );

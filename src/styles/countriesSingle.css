@@ -1,13 +1,18 @@
+.back-button-container {
+  padding: 0;
+}
+
 .main-country-row {
   gap: 3rem;
 }
 .map-container-container {
-  background-color: aqua;
   border-radius: 1rem;
   overflow: hidden;
-}
-.map-container {
   height: 500px;
+}
+
+.map-container {
+  height: 100%;
   width: 100%;
 }
 
