@@ -267,7 +267,7 @@ const CountriesSingle = () => {
             {borders && borders.length > 0 ? (
               <h3>Countries bordering {country.name.common}</h3>
             ) : (
-              <h3>{country.name.common} doesn't border any countries</h3>
+              <p>{country.name.common} doesn't border any countries</p>
             )}
           </Row>
           <Row className="borders-container" fluid="true">
@@ -339,15 +339,14 @@ const CountriesSingle = () => {
           height="550"
           loading="lazy"
           allowFullScreen
-          src={`https://www.google.com/maps/embed/v1/place?q=${country.capital}&zoom=5&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}`}
+          src={`https://www.google.com/maps/embed/v1/place?q=${country.capital[0]},${country.name.common}&zoom=5&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}`}
         />
       </Row>
 
-      <Row className="m-5">
+      <Row className="map-container-container">
         <GoogleMap
           id="map"
           zoom={10}
-          center={{ lat: 44, lng: -80 }}
           mapContainerClassName="map-container"
         ></GoogleMap>
       </Row>
