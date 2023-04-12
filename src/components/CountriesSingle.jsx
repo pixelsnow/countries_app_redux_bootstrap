@@ -74,9 +74,7 @@ const CountriesSingle = () => {
       query: country.capital[0] + ", " + country.name.common,
       fields: ["name", "geometry"],
     };
-
     const service = new window.google.maps.places.PlacesService(map);
-
     service.findPlaceFromQuery(requestCountry, (results, status) => {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
         service.getDetails(
