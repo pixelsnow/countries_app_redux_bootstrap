@@ -22,7 +22,6 @@ const Login = () => {
     if (loading) return;
     // If there is a user, we just navigate to home page
     if (user) navigate("/countries");
-    if (error) console.log(error);
   }, [user, loading, error, navigate]);
 
   const logInHandler = async (e) => {

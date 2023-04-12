@@ -30,13 +30,11 @@ const Countries = () => {
 
   const addFavouriteHandler = (countryName) => {
     const newList = [...favouritesList, countryName];
-    //dispatch(setFavourites(newList));
     dispatch(setFavourites(newList));
   };
 
   const removeFavouriteHandler = (countryName) => {
     const newList = favouritesList.filter((item) => item !== countryName);
-    //dispatch(setFavourites(newList));
     dispatch(setFavourites(newList));
   };
 
@@ -112,12 +110,9 @@ const Countries = () => {
                       <ListGroup.Item>
                         <i className="bi bi-translate me-2"></i>
                         <span>
-                          {
-                            country.languages
-                              ? Object.values(country.languages).join(", ")
-                              : "---"
-                            // Another way: {Object.values(country.languages) || {} }
-                          }
+                          {country.languages
+                            ? Object.values(country.languages).join(", ")
+                            : "---"}
                         </span>
                       </ListGroup.Item>
                       <ListGroup.Item>

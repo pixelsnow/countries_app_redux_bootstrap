@@ -72,8 +72,6 @@ const CountriesSingle = () => {
 
     service.findPlaceFromQuery(requestCountry, (results, status) => {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-        console.log("RESULTS is ", results);
-        console.log("RESULTS[0] is ", results[0]);
         service.getDetails(
           {
             placeId: results[0].place_id,
@@ -83,38 +81,26 @@ const CountriesSingle = () => {
               status === window.google.maps.places.PlacesServiceStatus.OK &&
               place.photos
             ) {
-              console.log("place", place);
               setPhotos(
                 place.photos.map((pics) =>
                   pics.getUrl({ maxWidth: 2000, maxHeight: 2000 })
                 )
               );
-            } else {
-              console.log("getting details failed, status is", status);
             }
           }
         );
-      } else {
-        console.log("requestCountry", requestCountry);
-        console.log("getting id failed, status is:", status);
       }
     });
     service.findPlaceFromQuery(requestCapital, (results, status) => {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-        console.log("RESULTS[0] for capital is ", results[0]);
         setCenter(results[0].geometry.location);
       } else {
-        console.log("requestCapital", requestCapital);
-        console.log("getting id failed, status is:", status);
       }
     });
   };
 
   useEffect(() => {
     if (isLoaded && country && mapRef.current) {
-      console.log("called from useEffect");
-      console.log("REF", mapRef.current);
-      console.log("country", country);
       onMapLoad(mapRef.current);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -122,10 +108,7 @@ const CountriesSingle = () => {
 
   useEffect(() => {
     if (location.state.country) {
-      /*  if (location.state.country) { */
-      console.log("state exists");
       setCountry(location.state.country);
-      //setLoading(false);
       axios
         .get(
           `https://api.openweathermap.org/data/2.5/weather?q=${location.state.country.capital[0]}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
@@ -135,14 +118,12 @@ const CountriesSingle = () => {
           setLoading(false);
         })
         .catch((err) => {
-          console.log("weather not fetched");
           setError(true);
           setLoading(false);
         });
     } else {
       countryService.getSingle(single).then((res) => {
         setCountry(res.data);
-
         axios
           .get(
             `https://api.openweathermap.org/data/2.5/weather?q=${country.capital[0]}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
@@ -218,18 +199,6 @@ const CountriesSingle = () => {
         </Col>
         <Col>
           <Row className="country-title">
-            {country.coatOfArms && country.coatOfArms.svg && (
-              <Col md="auto" className="coat-of-arms">
-                <img src={country.coatOfArms.svg} alt="coat of arms" />
-              </Col>
-            )}
-            <Col md="auto" className="flag-container">
-              {country.flags.svg ? (
-                <img src={country.flags.svg} alt={country.flags.alt} />
-              ) : (
-                <img src={country.flags.png} alt={country.flags.alt} />
-              )}
-            </Col>
             <Col md="auto">
               <h2 className="display-4">{country.name.common}</h2>
             </Col>
@@ -245,6 +214,20 @@ const CountriesSingle = () => {
                   className="bi bi-heart text-danger m-1 p-1"
                   onClick={() => addFavouriteHandler(country.name.common)}
                 ></i>
+              )}
+            </Col>
+          </Row>
+          <Row className="country-emblems">
+            {country.coatOfArms && country.coatOfArms.svg && (
+              <Col md="auto" className="coat-of-arms">
+                <img src={country.coatOfArms.svg} alt="coat of arms" />
+              </Col>
+            )}
+            <Col md="auto" className="flag-container">
+              {country.flags.svg ? (
+                <img src={country.flags.svg} alt={country.flags.alt} />
+              ) : (
+                <img src={country.flags.png} alt={country.flags.alt} />
               )}
             </Col>
           </Row>
