@@ -60,6 +60,11 @@
 .borders-heading {
   margin-top: 2rem;
 }
+
+.borders-container {
+  padding: 0.5rem;
+}
+
 .border-container {
   border: none;
   padding: 0;
@@ -90,9 +95,6 @@
   font-size: 1.5rem;
 }
 
-.weather-container p {
-}
-
 .weather-container i {
   font-size: 1.5rem;
   color: var(--main-colour);
@@ -111,9 +113,6 @@
   margin-top: 0.5rem;
   justify-content: space-around;
   padding: 0 1rem;
-}
-
-.weather-item {
 }
 
 .country-info {

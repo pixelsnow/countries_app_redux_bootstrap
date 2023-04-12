@@ -196,7 +196,7 @@ const CountriesSingle = () => {
   }
   return (
     <Container className="countries-single-container">
-      <Row className="m-5 mb-4 mt-5">
+      <Row className="m-5 mb-4 mt-2">
         <Col>
           <Button variant="custom" onClick={() => navigate("/countries")}>
             <i class="bi bi-arrow-left"></i> Back to countries list
