@@ -199,7 +199,7 @@ const CountriesSingle = () => {
       <Row className="m-5 mb-4 mt-2">
         <Col>
           <Button variant="custom" onClick={() => navigate("/countries")}>
-            <i class="bi bi-arrow-left"></i> Back to countries list
+            <i className="bi bi-arrow-left"></i> Back to countries list
           </Button>
         </Col>
       </Row>
