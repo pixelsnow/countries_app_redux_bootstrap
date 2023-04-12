@@ -63,43 +63,78 @@ const CountriesSingle = () => {
     dispatch(setFavourites(newList));
   };
 
-  // Fetching information about the country and the capital (coordinates, photos) from Google Places Service
-  const onMapLoad = (map) => {
-    mapRef.current = map;
-    const requestCountry = {
-      query: country.name.common,
-      fields: ["place_id", "name"],
-    };
-    const requestCapital = {
-      query: country.capital[0] + ", " + country.name.common,
-      fields: ["name", "geometry"],
-    };
-    const service = new window.google.maps.places.PlacesService(map);
-    service.findPlaceFromQuery(requestCountry, (results, status) => {
+  useEffect(() => {
+    console.log("PHOTOS changed", photos);
+  }, [photos]);
+
+  const fetchPhotos = (service, request) => {
+    let fetchedPhotos = [];
+    service.findPlaceFromQuery(request, (results, status) => {
+      console.log("trying to find place", request.query);
+      console.log("results", results);
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+        console.log("place found", results);
         service.getDetails(
           {
             placeId: results[0].place_id,
           },
           (place, status) => {
+            console.log(
+              "request, place, photos.length",
+              request.query,
+              place,
+              photos.length
+            );
             if (
               status === window.google.maps.places.PlacesServiceStatus.OK &&
+              place.types.includes("country") &&
               place.photos
             ) {
+              console.log("fetched photos...");
               setPhotos(
                 place.photos.map((pics) =>
                   pics.getUrl({ maxWidth: 2000, maxHeight: 2000 })
                 )
               );
+              /* fetchedPhotos = place.photos.map((pics) =>
+                pics.getUrl({ maxWidth: 2000, maxHeight: 2000 })
+              ); */
             } else {
               setPhotos([]);
             }
           }
         );
       } else {
-        setPhotos([]);
       }
     });
+    return fetchedPhotos;
+  };
+
+  // Fetching information about the country and the capital (coordinates, photos) from Google Places Service
+  const onMapLoad = (map) => {
+    mapRef.current = map;
+
+    const requestCountry = {
+      query: country.name.common,
+      fields: ["place_id", "name"],
+    };
+    const requestCountryOfficial = {
+      query: country.name.official,
+      fields: ["place_id", "name"],
+    };
+    const requestCapital = {
+      query: country.capital
+        ? country.capital[0] + ", "
+        : "" + country.name.common,
+      fields: ["name", "geometry"],
+    };
+
+    const service = new window.google.maps.places.PlacesService(map);
+
+    fetchPhotos(service, requestCountryOfficial);
+
+    fetchPhotos(service, requestCountry);
+
     service.findPlaceFromQuery(requestCapital, (results, status) => {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
         setCenter(results[0].geometry.location);
@@ -107,9 +142,14 @@ const CountriesSingle = () => {
     });
   };
 
+  useEffect(() => {
+    console.log("new country", country);
+  }, [country]);
+
   // make sure that when the country is updated information is fetched again
   useEffect(() => {
     if (isLoaded && country && mapRef.current) {
+      console.log("NEW COUNTRY useEffect", country.name.common);
       onMapLoad(mapRef.current);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -118,9 +158,14 @@ const CountriesSingle = () => {
   useEffect(() => {
     if (location.state.country) {
       setCountry(location.state.country);
+      console.log("location.state.country", location.state.country);
       axios
         .get(
-          `https://api.openweathermap.org/data/2.5/weather?q=${location.state.country.capital[0]}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
+          `https://api.openweathermap.org/data/2.5/weather?q=${
+            location.state.country.capital
+              ? location.state.country.capital[0]
+              : location.state.country.name.common
+          }&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
         )
         .then((res) => {
           setWeather(res.data);
@@ -136,7 +181,11 @@ const CountriesSingle = () => {
         setCountry(res.data);
         axios
           .get(
-            `https://api.openweathermap.org/data/2.5/weather?q=${country.capital[0]}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
+            `https://api.openweathermap.org/data/2.5/weather?q=${
+              location.state.country.capital
+                ? location.state.country.capital[0]
+                : location.state.country.name.common
+            }&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`
           )
           .then((res) => {
             setWeather(res.data);
@@ -247,7 +296,12 @@ const CountriesSingle = () => {
           <Col>
             <Row className="country-info">
               <Col>
-                Capital: <span>{country.capital.join(" ,")}</span>{" "}
+                Capital:{" "}
+                {country.capital ? (
+                  <span>{country.capital.join(" ,")}</span>
+                ) : (
+                  "none"
+                )}
               </Col>
             </Row>
             <Row className="country-info">
@@ -305,8 +359,11 @@ const CountriesSingle = () => {
                   <Col>
                     <p>
                       Right now it is <span> {weather.main.temp}°C </span>{" "}
-                      degrees in {country.capital[0]} and{" "}
-                      {weather.weather[0].description}
+                      degrees in{" "}
+                      {country.capital
+                        ? country.capital[0]
+                        : country.name.common}{" "}
+                      and {weather.weather[0].description}
                     </p>
                   </Col>
                 </Row>
