@@ -14,7 +14,10 @@ import countryService from "../services/countries";
 import { LinkContainer } from "react-router-bootstrap";
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 
-let google = window.google;
+/* import { MAP } from "@react-google-maps/api/lib/constants"; */
+
+let service;
+const libraries = ["places"];
 
 const CountriesSingle = () => {
   const location = useLocation();
@@ -22,10 +25,13 @@ const CountriesSingle = () => {
   const { single } = useParams();
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY /* ,
-    libraries: ["places"], */,
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY,
+    libraries,
   });
-
+  /* const mapRef = React.useRef();
+  const onMapLoad = React.useCallback((map) => {
+    mapRef.current = map;
+  }, []); */
   //if (location) country = location.state.country;
 
   const [error, setError] = useState(false);
@@ -34,6 +40,36 @@ const CountriesSingle = () => {
   const [country, setCountry] = useState(null);
   const [borders, setBorders] = useState(null);
   const [photos, setPhotos] = useState([]);
+
+  const onMapLoad = (map) => {
+    let request = {
+      query: country.name.common,
+      fields: ["place_id"],
+    };
+
+    let service = new window.google.maps.places.PlacesService(map);
+
+    service.findPlaceFromQuery(request, (results, status) => {
+      if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+        console.log("RESULTS[0] is ", results[0].place_id);
+        service.getDetails(
+          {
+            placeId: results[0].place_id,
+          },
+          function (place, status) {
+            if (place.photos)
+              setPhotos(
+                place.photos.map((pics) =>
+                  pics.getUrl({ maxWidth: 2000, maxHeight: 2000 })
+                )
+              );
+          }
+        );
+      } else {
+        console.log("failed, status is:", status);
+      }
+    });
+  };
 
   useEffect(() => {
     if (location.state.country) {
@@ -83,17 +119,34 @@ const CountriesSingle = () => {
   }, [location.state.country.borders]);
 
   const asyncPlaces = async (request) => {
-    if (!google) google = window.google;
-    const { places } = await google.maps.places.Place.findPlaceFromQuery(
-      request
+    console.log("google.maps", window.google.maps);
+    /* const { PlacesService } = await google.maps.importLibrary("places"); */
+    service = new window.google.maps.places.PlacesService(
+      document.getElementById("map")
     );
-    return places;
+    console.log("placesService", service);
+
+    let place = null;
+    service.findPlaceFromQuery(request, (results, status) => {
+      console.log("results, status", results, status);
+      if (
+        status === window.google.maps.places.PlacesServiceStatus.OK &&
+        results
+      ) {
+        place = results[0];
+      }
+    });
+    console.log("details fetched", place);
+    return place;
   };
 
   const logPlaceDetails = (placeID) => {
-    var service = new google.maps.places.PlacesService(
+    service = new window.google.maps.places.PlacesService(
       document.getElementById("map")
     );
+    /*     const service = new google.maps.places.PlacesService(
+      document.getElementById("map")
+    ); */
     service.getDetails(
       {
         placeId: placeID,
@@ -109,52 +162,19 @@ const CountriesSingle = () => {
     );
   };
 
-  useEffect(() => {
-    /*axios
-       .get(
-        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURI(
-          location.state.country.name.common
-        )}&types=(regions)&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}`,
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET",
-            "Access-Control-Allow-Headers": "Content-Type, Authorization",
-          },
-        }
-      )
-      .then((data) => console.log("data!!!", data))
-      .catch((err) => console.log(err)); */
-    /* axios
-      .get(
-        `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${encodeURI(
-          location.state.country.name.common
-        )}&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}`,
-        { headers: { "Access-Control-Allow-Origin": "*" } }
-      )
-      .then((data) => console.log(data.data)); */
-    /* axios
-      .get(
-        `https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJMVd4MymgVA0R99lHx5Y__Ws&fields=photo&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}`
-      )
-      .then((data) => console.log("places fetched!", data)); */
-    /* const map = new google.maps.Map(document.getElementById("map"), {
-      center: sydney,
-      zoom: 15,
-    }); */
+  /* useEffect(() => {
+    if (!isLoaded) return;
     const request = {
       query: location.state.country.name.common,
-      fields: ["displayName", "location"],
+      fields: ["displayName", "location", "photos"],
     };
-    asyncPlaces(request).then((data) => {
-      console.log("ID", data[0].id);
-      /* const requestPhotos = {
-        placeId: data[0].id,
-        fields: ["photos"],
-      }; */
-      logPlaceDetails(data[0].id);
-    });
-  }, [location.state.country, country]);
+    asyncPlaces(request)
+      .then((data) => {
+        console.log("ID", data[0].id);
+        logPlaceDetails(data[0].id);
+      })
+      .catch((err) => console.log("getting id failed", err.message));
+  }, [location.state.country, country, isLoaded]); */
 
   /*   useEffect(() => {
     axios
@@ -345,10 +365,12 @@ const CountriesSingle = () => {
 
       <Row className="map-container-container">
         <GoogleMap
-          id="map"
+          onLoad={(map) => onMapLoad(map)}
+          id="map2"
           zoom={10}
           mapContainerClassName="map-container"
-        ></GoogleMap>
+        />
+        <div id="map"></div>
       </Row>
     </Container>
   );
