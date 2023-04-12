@@ -96,7 +96,7 @@ const Favourites = () => {
             </Form>
           </Col>
         </Row>
-        <Row xs={2} md={3} lg={4} className="g-3">
+        <Row xs={1} sm={2} md={3} lg={4} xxl={5} className="g-3">
           {countriesList
             .filter(
               (c) =>
