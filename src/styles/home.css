@@ -1,18 +1,8 @@
-.body-container {
-}
-
 .home-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.home-content-container {
   position: relative;
   padding: 0;
   display: flex;
   justify-content: center;
-  height: 100%;
-  background-color: antiquewhite;
 }
 
 .home-content {
@@ -22,9 +12,26 @@
   background-color: white;
   box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.25);
   border-radius: 1rem;
-  padding: 2rem;
-  max-width: 800px;
+  padding: 4rem;
+  max-width: 600px;
 }
+
+.call-to-action {
+  background-color: var(--main-colour);
+  padding: 2rem;
+  margin: 1rem 0;
+  border-radius: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.call-to-action .buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
 .slider {
   height: 30px;
   margin: auto;
@@ -35,6 +42,7 @@
   background-color: white;
   overflow: hidden;
 }
+
 .all-flags {
   display: flex;
   flex-direction: row;
