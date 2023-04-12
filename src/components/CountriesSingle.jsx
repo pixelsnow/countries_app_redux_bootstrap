@@ -71,6 +71,7 @@ const CountriesSingle = () => {
             placeId: results[0].place_id,
           },
           (place, status) => {
+            console.log("details about the place found", place);
             if (
               status === window.google.maps.places.PlacesServiceStatus.OK &&
               place.types.includes("country") &&
@@ -84,7 +85,6 @@ const CountriesSingle = () => {
             }
           }
         );
-      } else {
       }
     });
   };
@@ -114,15 +114,30 @@ const CountriesSingle = () => {
     fetchPhotos(service, requestCountry);
 
     service.findPlaceFromQuery(requestCapital, (results, status) => {
-      if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-        const result = results.find((element) =>
-          element.types.includes("locality")
-        );
+      console.log("first capital results", results);
+      const result = results.find(
+        (element) =>
+          element.types.includes("locality") ||
+          element.types.includes("country")
+      );
+      if (
+        status === window.google.maps.places.PlacesServiceStatus.OK &&
+        result
+      ) {
+        console.log("capital found", result);
         setCenter(result.geometry.location);
       } else {
         service.findPlaceFromQuery(requestCountry, (results, status) => {
-          if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-            setCenter(results[0].geometry.location);
+          const result2 = results.find(
+            (element) =>
+              element.types.includes("locality") ||
+              element.types.includes("country")
+          );
+          if (
+            status === window.google.maps.places.PlacesServiceStatus.OK &&
+            result2
+          ) {
+            setCenter(result2.geometry.location);
           }
         });
       }
