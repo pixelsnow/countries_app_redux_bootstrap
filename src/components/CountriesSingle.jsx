@@ -63,55 +63,30 @@ const CountriesSingle = () => {
     dispatch(setFavourites(newList));
   };
 
-  useEffect(() => {
-    console.log("PHOTOS changed", photos);
-  }, [photos]);
-
   const fetchPhotos = (service, request) => {
-    let fetchedPhotos = [];
     service.findPlaceFromQuery(request, (results, status) => {
-      console.log("trying to find place", request.query);
-      console.log("results", results);
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-        console.log("place found", results);
         service.getDetails(
           {
             placeId: results[0].place_id,
           },
           (place, status) => {
-            console.log(
-              "request, place, photos.length",
-              request.query,
-              place,
-              photos.length
-            );
             if (
               status === window.google.maps.places.PlacesServiceStatus.OK &&
               place.types.includes("country") &&
               place.photos
             ) {
-              console.log("fetched photos...");
-              console.log(
-                "setting to",
-                place.photos.map((pics) =>
-                  pics.getUrl({ maxWidth: 2000, maxHeight: 2000 })
-                )
-              );
               setPhotos(
                 place.photos.map((pics) =>
                   pics.getUrl({ maxWidth: 2000, maxHeight: 2000 })
                 )
               );
-              /* fetchedPhotos = place.photos.map((pics) =>
-                pics.getUrl({ maxWidth: 2000, maxHeight: 2000 })
-              ); */
             }
           }
         );
       } else {
       }
     });
-    return fetchedPhotos;
   };
 
   // Fetching information about the country and the capital (coordinates, photos) from Google Places Service
@@ -130,30 +105,33 @@ const CountriesSingle = () => {
       query: country.capital
         ? country.capital[0] + ", "
         : "" + country.name.common,
-      fields: ["name", "geometry"],
+      fields: ["name", "geometry", "types"],
     };
 
     const service = new window.google.maps.places.PlacesService(map);
 
     fetchPhotos(service, requestCountryOfficial);
-
     fetchPhotos(service, requestCountry);
 
     service.findPlaceFromQuery(requestCapital, (results, status) => {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-        setCenter(results[0].geometry.location);
+        const result = results.find((element) =>
+          element.types.includes("locality")
+        );
+        setCenter(result.geometry.location);
+      } else {
+        service.findPlaceFromQuery(requestCountry, (results, status) => {
+          if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+            setCenter(results[0].geometry.location);
+          }
+        });
       }
     });
   };
 
-  useEffect(() => {
-    console.log("new country", country);
-  }, [country]);
-
   // make sure that when the country is updated information is fetched again
   useEffect(() => {
     if (isLoaded && country && mapRef.current) {
-      console.log("NEW COUNTRY useEffect", country.name.common);
       onMapLoad(mapRef.current);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -162,7 +140,6 @@ const CountriesSingle = () => {
   useEffect(() => {
     if (location.state.country) {
       setCountry(location.state.country);
-      console.log("location.state.country", location.state.country);
       axios
         .get(
           `https://api.openweathermap.org/data/2.5/weather?q=${
