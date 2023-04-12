@@ -1,11 +1,15 @@
 import { useEffect } from "react";
-import { Button, Row, Col } from "react-bootstrap";
+
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { LinkContainer } from "react-router-bootstrap";
 import { initializeCountries } from "../features/countries/countriesSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Spinner } from "react-bootstrap";
+
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -53,8 +57,9 @@ const Home = () => {
         <Col className="home-content">
           <h1>Welcome to countries app</h1>
           <p>
-            This is a simple React application that showcases all countries in
-            the world
+            This is a simple React application that allows you to explore the
+            world. Build by{" "}
+            <a href="https://github.com/pixelsnow">Valeria Vagapova</a>
           </p>
           {!user && (
             <div className="call-to-action">
@@ -74,7 +79,15 @@ const Home = () => {
             <li>React</li>
             <li>Redux, RTK</li>
             <li>Firebase (authentication, data storage)</li>
-            <li>Axios</li>
+            <li>Bootstrap</li>
+            <li>
+              <a href="https://www.npmjs.com/package/axios">axios</a>
+            </li>
+            <li>
+              <a href="https://www.npmjs.com/package/@react-google-maps/api">
+                @react-google-maps/api
+              </a>
+            </li>
           </ul>
           <h2>Resources used</h2>
           <ul>

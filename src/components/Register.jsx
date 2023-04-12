@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate, Link } from "react-router-dom";
 
-import { Button } from "react-bootstrap";
-
 import { auth, registerWithEmailAndPassword } from "../auth/firebase";
-import { Form } from "react-bootstrap";
+
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 const Register = () => {
   const [email, setEmail] = useState("");

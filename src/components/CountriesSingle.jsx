@@ -49,20 +49,16 @@ const CountriesSingle = () => {
 
   const addFavouriteHandler = (countryName) => {
     const newList = [...favouritesList, countryName];
-    //dispatch(setFavourites(newList));
     dispatch(setFavourites(newList));
   };
 
   const removeFavouriteHandler = (countryName) => {
     const newList = favouritesList.filter((item) => item !== countryName);
-    //dispatch(setFavourites(newList));
     dispatch(setFavourites(newList));
   };
 
   const onMapLoad = (map) => {
     mapRef.current = map;
-    //if (photos.length && center) return;
-
     const requestCountry = {
       query: country.name.common,
       fields: ["place_id", "name"],
@@ -98,7 +94,6 @@ const CountriesSingle = () => {
     service.findPlaceFromQuery(requestCapital, (results, status) => {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
         setCenter(results[0].geometry.location);
-      } else {
       }
     });
   };

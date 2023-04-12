@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate, Link } from "react-router-dom";
 
-import { Button } from "react-bootstrap";
-
 import { auth, logInWithEmailAndPassword } from "../auth/firebase";
 import { useDispatch } from "react-redux";
 
 import { fetchFavourites } from "../features/countries/favouritesSlice";
-import { Form } from "react-bootstrap";
+
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 const Login = () => {
   const [email, setEmail] = useState("");

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -7,13 +6,15 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/Row";
+import Spinner from "react-bootstrap/Spinner";
+import Button from "react-bootstrap/Button";
+
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import {
   initializeCountries,
   isLoading,
 } from "../features/countries/countriesSlice";
-import { Spinner, Button } from "react-bootstrap";
 import { setFavourites } from "../features/countries/favouritesSlice";
 
 const Favourites = () => {
@@ -44,13 +45,11 @@ const Favourites = () => {
 
   const addFavouriteHandler = (countryName) => {
     const newList = [...favouritesList, countryName];
-    //dispatch(setFavourites(newList));
     dispatch(setFavourites(newList));
   };
 
   const removeFavouriteHandler = (countryName) => {
     const newList = favouritesList.filter((item) => item !== countryName);
-    //dispatch(setFavourites(newList));
     dispatch(setFavourites(newList));
   };
 
@@ -130,12 +129,9 @@ const Favourites = () => {
                       <ListGroup.Item>
                         <i className="bi bi-translate me-2"></i>
                         <span>
-                          {
-                            country.languages
-                              ? Object.values(country.languages).join(", ")
-                              : "---"
-                            // Another way: {Object.values(country.languages) || {} }
-                          }
+                          {country.languages
+                            ? Object.values(country.languages).join(", ")
+                            : "---"}
                         </span>
                       </ListGroup.Item>
                       <ListGroup.Item>

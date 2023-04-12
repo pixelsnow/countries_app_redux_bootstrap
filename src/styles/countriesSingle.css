@@ -26,6 +26,8 @@
 .carousel {
   border-radius: 1rem;
   overflow: hidden;
+  width: 500px;
+  height: 500px;
 }
 
 .gallery img {
@@ -44,10 +46,6 @@
   font-size: 2rem;
 }
 
-.carousel {
-  width: 500px;
-  height: 500px;
-}
 .country-emblems {
   margin-bottom: 1rem;
 }

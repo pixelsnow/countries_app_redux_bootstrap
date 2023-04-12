@@ -13,10 +13,8 @@ import {
   doc,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
   authDomain: "countries-lesson.firebaseapp.com",
@@ -30,7 +28,6 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
-// This is using our app which has auth set up and creates a database
 const db = getFirestore(app);
 
 let userCredential = undefined;
@@ -49,7 +46,6 @@ const registerWithEmailAndPassword = async (name, email, password) => {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     // the response gives us an object "user" back
     const user = res.user;
-    // const q = query(collection(db, "users"), where("uid", "==", user.id));
     // This will become our fields in the database
     await addDoc(collection(db, "users"), {
       uid: user.uid,
