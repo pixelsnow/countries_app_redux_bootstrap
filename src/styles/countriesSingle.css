@@ -13,6 +13,8 @@
 
 .gallery {
   padding: 0;
+  border-radius: 1rem;
+  overflow: hidden;
 }
 
 .gallery img {

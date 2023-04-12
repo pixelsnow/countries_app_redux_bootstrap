@@ -33,7 +33,7 @@ const CountriesSingle = () => {
   const [loading, setLoading] = useState(true);
   const [country, setCountry] = useState(null);
   const [borders, setBorders] = useState(null);
-  const [photos, setPhotos] = useState(null);
+  const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
     if (location.state.country) {
@@ -99,11 +99,12 @@ const CountriesSingle = () => {
         placeId: placeID,
       },
       function (place, status) {
-        setPhotos(
-          place.photos.map((pics) =>
-            pics.getUrl({ maxWidth: 2000, maxHeight: 2000 })
-          )
-        );
+        if (place.photos)
+          setPhotos(
+            place.photos.map((pics) =>
+              pics.getUrl({ maxWidth: 2000, maxHeight: 2000 })
+            )
+          );
       }
     );
   };
@@ -204,16 +205,18 @@ const CountriesSingle = () => {
       </Row>
       <Row className="m-5 mt-4 main-country-row">
         <Col md="auto" className="gallery">
-          <Carousel interval={2000}>
-            {photos &&
-              photos.slice(0, 6).map((pic) => (
-                <CarouselItem key={pic}>
-                  <div>
-                    <img alt="pic" src={pic} key={pic} />
-                  </div>
-                </CarouselItem>
-              ))}
-          </Carousel>
+          {photos && photos.length > 0 && (
+            <Carousel interval={2000}>
+              {photos &&
+                photos.slice(0, 6).map((pic) => (
+                  <CarouselItem key={pic}>
+                    <div>
+                      <img alt="pic" src={pic} key={pic} />
+                    </div>
+                  </CarouselItem>
+                ))}
+            </Carousel>
+          )}
         </Col>
         {/* <Col>
           {
@@ -261,7 +264,7 @@ const CountriesSingle = () => {
           </Col>
 
           <Row className="borders-heading">
-            {borders ? (
+            {borders && borders.length > 0 ? (
               <h3>Countries bordering {country.name.common}</h3>
             ) : (
               <h3>{country.name.common} doesn't border any countries</h3>
