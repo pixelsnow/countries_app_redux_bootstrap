@@ -293,8 +293,8 @@ const CountriesSingle = () => {
               ))}
           </Row>
         </Col>
-        <Col className="weather-col" md="auto">
-          {!error && weather && (
+        {!error && weather && (
+          <Col className="weather-col" md="auto">
             <div className="weather-container">
               <h3>Current weather</h3>
 
@@ -333,10 +333,9 @@ const CountriesSingle = () => {
                 </Col>
               </Row>
             </div>
-          )}
-        </Col>
+          </Col>
+        )}
       </Row>
-
       <Row className="m-5 map-container-container">
         <GoogleMap
           onLoad={(map) => onMapLoad(map)}
