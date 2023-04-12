@@ -1,17 +1,22 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+
+// Bootstrap imports
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
+import Button from "react-bootstrap/Button";
 import { LinkContainer } from "react-router-bootstrap";
-import { logOut } from "../auth/firebase";
+
+// Component imports
+import Logo from "../components/Logo";
+import Footer from "../components/Footer";
+
 // Firebase imports
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
-import { Button } from "react-bootstrap";
-import Logo from "../components/Logo";
-import Footer from "../components/Footer";
+import { logOut } from "../auth/firebase";
 
 const Layout = () => {
   const auth = getAuth();

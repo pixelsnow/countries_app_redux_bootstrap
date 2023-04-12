@@ -1,9 +1,18 @@
+.body-container {
+}
+
 .home-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-content-container {
   position: relative;
   padding: 0;
   display: flex;
   justify-content: center;
-  background-color: aqua;
+  height: 100%;
+  background-color: antiquewhite;
 }
 
 .home-content {
@@ -16,27 +25,50 @@
   padding: 2rem;
   max-width: 800px;
 }
+.slider {
+  height: 30px;
+  margin: auto;
+  position: relative;
 
-.all-flags {
-  height: 80svh;
+  display: grid;
+  place-items: center;
+  background-color: white;
   overflow: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
+}
+.all-flags {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
+  width: calc(50px * 250 * 2);
+  animation: scroll 150s linear infinite;
+}
+.all-flags:hover {
+  animation-play-state: paused;
 }
 
-.all-flags img {
+.all-flags .flag-container {
+  width: 50px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 100px;
+}
+
+.all-flags .flag-container img {
   max-width: 30px;
   max-height: 30px;
   object-fit: cover;
 }
 
-.flag-container {
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.all-flags .flag-container img:hover {
+  transform: translateZ(20px);
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-50px * 250));
+  }
 }
