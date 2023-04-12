@@ -108,6 +108,7 @@ const Favourites = () => {
 
                   <Card.Body className="d-flex flex-column">
                     <LinkContainer
+                      className="card-link-container"
                       to={`/countries/${country.name.common}`}
                       state={{ country: country }}
                     >

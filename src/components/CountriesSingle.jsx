@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+
+import { useDispatch, useSelector } from "react-redux";
+import { setFavourites } from "../features/countries/favouritesSlice";
+
 import {
   Col,
   Container,
@@ -36,9 +40,23 @@ const CountriesSingle = () => {
   const [photos, setPhotos] = useState([]);
   const [center, setCenter] = useState(null);
 
+  const dispatch = useDispatch();
+  let favouritesList = useSelector((state) => state.favourites.favourites);
+
+  const addFavouriteHandler = (countryName) => {
+    const newList = [...favouritesList, countryName];
+    //dispatch(setFavourites(newList));
+    dispatch(setFavourites(newList));
+  };
+
+  const removeFavouriteHandler = (countryName) => {
+    const newList = favouritesList.filter((item) => item !== countryName);
+    //dispatch(setFavourites(newList));
+    dispatch(setFavourites(newList));
+  };
+
   const onMapLoad = (map) => {
     mapRef.current = map;
-    setCountry(location.state.country);
 
     const requestCountry = {
       query: country.name.official,
@@ -200,14 +218,28 @@ const CountriesSingle = () => {
                 <img src={country.coatOfArms.svg} alt="coat of arms" />
               </Col>
             )}
-            <Col md="auto">
-              <h2 className="display-4">{country.name.common}</h2>
-            </Col>
             <Col md="auto" className="flag-container">
               {country.flags.svg ? (
                 <img src={country.flags.svg} alt={country.flags.alt} />
               ) : (
                 <img src={country.flags.png} alt={country.flags.alt} />
+              )}
+            </Col>
+            <Col md="auto">
+              <h2 className="display-4">{country.name.common}</h2>
+            </Col>
+
+            <Col md="auto">
+              {favouritesList.includes(country.name.common) ? (
+                <i
+                  className="bi bi-heart-fill text-danger m-1 p-1"
+                  onClick={() => removeFavouriteHandler(country.name.common)}
+                ></i>
+              ) : (
+                <i
+                  className="bi bi-heart text-danger m-1 p-1"
+                  onClick={() => addFavouriteHandler(country.name.common)}
+                ></i>
               )}
             </Col>
           </Row>

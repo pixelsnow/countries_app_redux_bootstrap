@@ -32,10 +32,11 @@
 .country-title {
   display: flex;
   align-items: center;
+  margin-bottom: 1.5rem;
 }
 
-.country-title {
-  margin-bottom: 1.5rem;
+.country-title i {
+  font-size: 2rem;
 }
 
 .carousel {
