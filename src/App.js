@@ -19,7 +19,6 @@ import Register from "./components/Register";
 
 // Styles
 import "bootstrap-icons/font/bootstrap-icons.css";
-//import "./styles/stylesheet.scss";
 import "./App.css";
 import "./styles/card.css";
 import "./styles/button.css";
@@ -29,6 +28,7 @@ import "./styles/home.css";
 import "./styles/form.css";
 import "./styles/header.css";
 import "./styles/forms.css";
+import "./styles/footer.css";
 
 const App = () => {
   const auth = getAuth();

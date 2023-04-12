@@ -1,15 +1,42 @@
 .home-container {
   position: relative;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  background-color: aqua;
+}
+
+.home-content {
+  margin-top: 2rem;
+  position: relative;
+  z-index: 1;
+  background-color: white;
+  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.25);
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 800px;
 }
 
 .all-flags {
+  height: 80svh;
+  overflow: hidden;
   position: absolute;
   top: 0;
   left: 0;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .all-flags img {
-  max-width: 50px;
+  max-width: 30px;
   max-height: 30px;
   object-fit: cover;
+}
+
+.flag-container {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

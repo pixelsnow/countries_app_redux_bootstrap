@@ -1,0 +1,23 @@
+.footer-container {
+  margin-top: auto;
+}
+
+footer {
+  height: 2rem;
+  background-color: black;
+  color: white;
+  border-radius: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+footer a:hover {
+  color: var(--main-colour);
+}

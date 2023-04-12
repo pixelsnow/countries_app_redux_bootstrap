@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Button } from "react-bootstrap";
 
 const Home = () => {
   const [flags, setFlags] = useState([]);
@@ -15,15 +16,34 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <div>
+      <div className="home-content">
         <span>Countries app </span>is a simple React application made in
         Business College Helsinki lessons. App uses{" "}
-        <a href="https://restcountries.com/">https://restcountries.com/ </a> and{" "}
-        <a href="https://openweathermap.org/">https://openweathermap.org/</a>
+        <a href="https://restcountries.com/">REST Countries API </a>,{" "}
+        <a href="https://openweathermap.org/">Open weather API</a>
+        <Button variant="custom">Log in</Button>
+        <Button variant="custom">Sign up</Button>
       </div>
       <div className="all-flags">
         {flags.map((flag) => (
-          <img alt="flag" key={flag} src={flag} />
+          <div className="flag-container">
+            <img alt="flag" key={flag} src={flag} />
+          </div>
+        ))}
+        {flags.map((flag) => (
+          <div className="flag-container">
+            <img alt="flag" key={flag} src={flag} />
+          </div>
+        ))}
+        {flags.map((flag) => (
+          <div className="flag-container">
+            <img alt="flag" key={flag} src={flag} />
+          </div>
+        ))}
+        {flags.map((flag) => (
+          <div className="flag-container">
+            <img alt="flag" key={flag} src={flag} />
+          </div>
         ))}
       </div>
     </div>

@@ -11,6 +11,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { Button } from "react-bootstrap";
 import Logo from "../components/Logo";
+import Footer from "../components/Footer";
 
 const Layout = () => {
   const auth = getAuth();
@@ -56,6 +57,9 @@ const Layout = () => {
       </Row>
       <Row className="body-container">
         <Outlet />
+      </Row>
+      <Row className="footer-container">
+        <Footer />
       </Row>
     </Container>
   );

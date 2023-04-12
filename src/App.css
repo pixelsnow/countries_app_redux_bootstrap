@@ -6,8 +6,9 @@
     )
     no-repeat fixed;
   min-height: 100svh;
+  display: flex;
+  flex-direction: column;
 }
 
 .body-container {
-  padding: 1rem;
 }

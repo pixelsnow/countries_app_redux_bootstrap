@@ -43,10 +43,10 @@ const Countries = () => {
   if (loading) return <Spinner animation="border" />;
   else
     return (
-      <Container fluid>
+      <Container className="cards-container" fluid>
         <Row>
           <Col className="mt-3 d-flex justify-content-center">
-            <h1>All countries</h1>
+            <h1>Browse all countries</h1>
           </Col>
         </Row>
         <Row>
