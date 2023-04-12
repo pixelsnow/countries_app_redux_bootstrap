@@ -2,20 +2,24 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
+// Redux
 import { useDispatch, useSelector } from "react-redux";
 import { setFavourites } from "../features/countries/favouritesSlice";
 
-import {
-  Col,
-  Container,
-  Row,
-  Button,
-  Spinner,
-  Carousel,
-  CarouselItem,
-} from "react-bootstrap";
+// Bootstrap
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
+import Carousel from "react-bootstrap/Carousel";
+import CarouselItem from "react-bootstrap/CarouselItem";
+import LinkContainer from "react-router-bootstrap/LinkContainer";
+
+// Services
 import countryService from "../services/countries";
-import { LinkContainer } from "react-router-bootstrap";
+
+// Google API
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 
 const libraries = ["places"];

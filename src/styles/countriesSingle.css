@@ -151,3 +151,20 @@
 .country-info span {
   font-weight: 600;
 }
+
+@media only screen and (max-width: 600px) {
+  .countries-single-container .row {
+    margin: 0;
+    padding: 0;
+  }
+
+  .gallery img {
+    width: 75vw;
+    height: 75vw;
+  }
+
+  .carousel {
+    width: 75vw;
+    height: 75vw;
+  }
+}
