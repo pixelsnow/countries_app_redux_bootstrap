@@ -93,9 +93,13 @@ const CountriesSingle = () => {
                   pics.getUrl({ maxWidth: 2000, maxHeight: 2000 })
                 )
               );
+            } else {
+              setPhotos([]);
             }
           }
         );
+      } else {
+        setPhotos([]);
       }
     });
     service.findPlaceFromQuery(requestCapital, (results, status) => {
