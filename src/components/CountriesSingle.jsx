@@ -198,8 +198,8 @@ const CountriesSingle = () => {
     <Container className="countries-single-container">
       <Row className="m-5 mb-4 mt-5">
         <Col>
-          <Button variant="light" onClick={() => navigate("/countries")}>
-            Back to countries list
+          <Button variant="custom" onClick={() => navigate("/countries")}>
+            <i class="bi bi-arrow-left"></i> Back to countries list
           </Button>
         </Col>
       </Row>
@@ -294,21 +294,23 @@ const CountriesSingle = () => {
             <h3>Current weather</h3>
             {!error && weather && (
               <>
-                <Row className="weather-main-info-container">
-                  <Col md="auto">
-                    <img
-                      src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-                      alt={weather.weather[0].description}
-                    />
-                  </Col>
-                  <Col>
-                    <p>
-                      Right now it is <span> {weather.main.temp}°C </span>{" "}
-                      degrees in {country.capital[0]} and{" "}
-                      {weather.weather[0].description}
-                    </p>
-                  </Col>
-                </Row>
+                <div className="weather-main-info-container">
+                  <Row>
+                    <Col md="auto">
+                      <img
+                        src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+                        alt={weather.weather[0].description}
+                      />
+                    </Col>
+                    <Col>
+                      <p>
+                        Right now it is <span> {weather.main.temp}°C </span>{" "}
+                        degrees in {country.capital[0]} and{" "}
+                        {weather.weather[0].description}
+                      </p>
+                    </Col>
+                  </Row>
+                </div>
                 <Row className="weather-item-container" fluid="true">
                   <Col className="weather-item" md="auto">
                     <i className="bi bi-wind"></i> {weather.wind.speed}m/s

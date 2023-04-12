@@ -75,7 +75,11 @@
   background-color: #ffffff;
   border-radius: 1rem;
   max-width: 500px;
-  padding: 1rem;
+  padding: 1rem 0;
+}
+
+.weather-container h3 {
+  text-align: center;
 }
 
 .weather-container img {
@@ -93,16 +97,22 @@
 
 .weather-container i {
   font-size: 1.5rem;
+  color: var(--main-colour);
 }
 
 .weather-main-info-container {
-  background-color: rgb(228, 228, 228);
+  background-color: rgb(236, 236, 236);
+  padding: 0 1rem;
+}
+
+.weather-main-info-container .row {
   align-items: center;
 }
 
 .weather-item-container {
   margin-top: 0.5rem;
   justify-content: space-around;
+  padding: 0 1rem;
 }
 
 .weather-item {
