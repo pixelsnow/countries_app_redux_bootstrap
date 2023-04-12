@@ -198,7 +198,7 @@ const CountriesSingle = () => {
           {photos && photos.length > 0 && (
             <Carousel interval={2000}>
               {photos &&
-                photos.slice(0, 6).map((pic) => (
+                photos.map((pic) => (
                   <CarouselItem key={pic}>
                     <div>
                       <img alt="pic" src={pic} key={pic} />
