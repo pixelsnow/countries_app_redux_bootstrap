@@ -65,16 +65,13 @@ const CountriesSingle = () => {
 
   const fetchPhotos = (map, request) => {
     const service = new window.google.maps.places.PlacesService(map);
-    console.log("request", request.query);
     service.findPlaceFromQuery(request, (results, status) => {
-      console.log("results for fetching", results);
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
         service.getDetails(
           {
             placeId: results[0].place_id,
           },
           (place, status) => {
-            console.log("place details, status", place, status);
             if (
               status === window.google.maps.places.PlacesServiceStatus.OK &&
               place.types.includes("country") &&
@@ -117,7 +114,6 @@ const CountriesSingle = () => {
 
     const service = new window.google.maps.places.PlacesService(map);
     service.findPlaceFromQuery(requestCapital, (results, status) => {
-      console.log("center1", results);
       let result;
       if (results)
         result = results.find(
@@ -126,7 +122,6 @@ const CountriesSingle = () => {
             element.types.includes("country") ||
             element.types.includes("political")
         );
-      console.log("good center1 result", result);
       if (
         status === window.google.maps.places.PlacesServiceStatus.OK &&
         result
@@ -134,7 +129,6 @@ const CountriesSingle = () => {
         setCenter(result.geometry.location);
       } else {
         service.findPlaceFromQuery(requestCountry, (results, status) => {
-          console.log("center2", results);
           let result2;
           if (results)
             result2 = results.find(
