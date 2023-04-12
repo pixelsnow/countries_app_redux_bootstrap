@@ -63,15 +63,18 @@ const CountriesSingle = () => {
     dispatch(setFavourites(newList));
   };
 
-  const fetchPhotos = (service, request) => {
+  const fetchPhotos = (map, request) => {
+    const service = new window.google.maps.places.PlacesService(map);
+    console.log("request", request.query);
     service.findPlaceFromQuery(request, (results, status) => {
+      console.log("results for fetching", results);
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
         service.getDetails(
           {
             placeId: results[0].place_id,
           },
           (place, status) => {
-            console.log("details about the place found", place);
+            console.log("place details, status", place, status);
             if (
               status === window.google.maps.places.PlacesServiceStatus.OK &&
               place.types.includes("country") &&
@@ -91,15 +94,16 @@ const CountriesSingle = () => {
 
   // Fetching information about the country and the capital (coordinates, photos) from Google Places Service
   const onMapLoad = (map) => {
+    if (!country) return;
     mapRef.current = map;
 
     const requestCountry = {
       query: country.name.common,
-      fields: ["place_id", "name"],
+      fields: ["place_id", "name", "geometry", "types"],
     };
     const requestCountryOfficial = {
       query: country.name.official,
-      fields: ["place_id", "name"],
+      fields: ["place_id", "name", "types"],
     };
     const requestCapital = {
       query: country.capital
@@ -108,31 +112,36 @@ const CountriesSingle = () => {
       fields: ["name", "geometry", "types"],
     };
 
+    fetchPhotos(map, requestCountryOfficial);
+    fetchPhotos(map, requestCountry);
+
     const service = new window.google.maps.places.PlacesService(map);
-
-    fetchPhotos(service, requestCountryOfficial);
-    fetchPhotos(service, requestCountry);
-
     service.findPlaceFromQuery(requestCapital, (results, status) => {
-      console.log("first capital results", results);
-      const result = results.find(
-        (element) =>
-          element.types.includes("locality") ||
-          element.types.includes("country")
-      );
+      console.log("center1", results);
+      let result;
+      if (results)
+        result = results.find(
+          (element) =>
+            element.types.includes("locality") ||
+            element.types.includes("country") ||
+            element.types.includes("political")
+        );
+      console.log("good center1 result", result);
       if (
         status === window.google.maps.places.PlacesServiceStatus.OK &&
         result
       ) {
-        console.log("capital found", result);
         setCenter(result.geometry.location);
       } else {
         service.findPlaceFromQuery(requestCountry, (results, status) => {
-          const result2 = results.find(
-            (element) =>
-              element.types.includes("locality") ||
-              element.types.includes("country")
-          );
+          console.log("center2", results);
+          let result2;
+          if (results)
+            result2 = results.find(
+              (element) =>
+                element.types.includes("locality") ||
+                element.types.includes("country")
+            );
           if (
             status === window.google.maps.places.PlacesServiceStatus.OK &&
             result2
@@ -147,6 +156,7 @@ const CountriesSingle = () => {
   // make sure that when the country is updated information is fetched again
   useEffect(() => {
     if (isLoaded && country && mapRef.current) {
+      setPhotos([]);
       onMapLoad(mapRef.current);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
