@@ -1,9 +1,14 @@
 .main-country-row {
   gap: 3rem;
 }
-
-.map {
-  display: none;
+.map-container-container {
+  background-color: aqua;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.map-container {
+  height: 500px;
+  width: 100%;
 }
 
 .gallery {
@@ -74,11 +79,16 @@
   margin: 0.2rem;
 }
 
+.weather-col {
+  padding: 0;
+}
+
 .weather-container {
   background-color: #ffffff;
   border-radius: 1rem;
   max-width: 500px;
   padding: 1rem 0;
+
   box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.25);
 }
 
