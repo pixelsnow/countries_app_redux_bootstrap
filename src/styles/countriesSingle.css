@@ -60,6 +60,8 @@
 .coat-of-arms img {
   max-height: 100%;
   max-width: 100%;
+  -webkit-filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
 }
 
 .flag-container {
@@ -72,6 +74,8 @@
 .flag-container img {
   max-height: 100%;
   max-width: 100%;
+  -webkit-filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
 }
 
 .borders-heading {

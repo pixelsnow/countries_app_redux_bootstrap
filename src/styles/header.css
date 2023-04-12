@@ -6,11 +6,9 @@
 .navbar-nav {
   gap: 1rem;
 }
+
 .navbar-nav a {
   color: var(--main-colour);
-}
-
-.navbar-nav a:active {
 }
 
 .navbar-brand {

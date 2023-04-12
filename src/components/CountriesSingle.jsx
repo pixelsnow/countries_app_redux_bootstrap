@@ -135,7 +135,9 @@ const CountriesSingle = () => {
           setLoading(false);
         })
         .catch((err) => {
+          console.log("weather not fetched");
           setError(true);
+          setLoading(false);
         });
     } else {
       countryService.getSingle(single).then((res) => {
@@ -292,47 +294,46 @@ const CountriesSingle = () => {
           </Row>
         </Col>
         <Col className="weather-col" md="auto">
-          <div className="weather-container">
-            <h3>Current weather</h3>
-            {!error && weather && (
-              <>
-                <div className="weather-main-info-container">
-                  <Row>
-                    <Col md="auto">
-                      <img
-                        src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-                        alt={weather.weather[0].description}
-                      />
-                    </Col>
-                    <Col>
-                      <p>
-                        Right now it is <span> {weather.main.temp}°C </span>{" "}
-                        degrees in {country.capital[0]} and{" "}
-                        {weather.weather[0].description}
-                      </p>
-                    </Col>
-                  </Row>
-                </div>
-                <Row className="weather-item-container" fluid="true">
-                  <Col className="weather-item" md="auto">
-                    <i className="bi bi-wind"></i> {weather.wind.speed}m/s
-                  </Col>
-                  <Col className="weather-item" md="auto">
-                    <i className="bi bi-moisture"></i> {weather.main.humidity}%
-                  </Col>
+          {!error && weather && (
+            <div className="weather-container">
+              <h3>Current weather</h3>
 
-                  <Col className="weather-item" md="auto">
-                    <i className="bi bi-sunrise"></i>{" "}
-                    {epochToDate(weather.sys.sunrise)}
+              <div className="weather-main-info-container">
+                <Row>
+                  <Col md="auto">
+                    <img
+                      src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+                      alt={weather.weather[0].description}
+                    />
                   </Col>
-                  <Col className="weather-item" md="auto">
-                    <i className="bi bi-sunset"></i>{" "}
-                    {epochToDate(weather.sys.sunset)}
+                  <Col>
+                    <p>
+                      Right now it is <span> {weather.main.temp}°C </span>{" "}
+                      degrees in {country.capital[0]} and{" "}
+                      {weather.weather[0].description}
+                    </p>
                   </Col>
                 </Row>
-              </>
-            )}
-          </div>
+              </div>
+              <Row className="weather-item-container" fluid="true">
+                <Col className="weather-item" md="auto">
+                  <i className="bi bi-wind"></i> {weather.wind.speed}m/s
+                </Col>
+                <Col className="weather-item" md="auto">
+                  <i className="bi bi-moisture"></i> {weather.main.humidity}%
+                </Col>
+
+                <Col className="weather-item" md="auto">
+                  <i className="bi bi-sunrise"></i>{" "}
+                  {epochToDate(weather.sys.sunrise)}
+                </Col>
+                <Col className="weather-item" md="auto">
+                  <i className="bi bi-sunset"></i>{" "}
+                  {epochToDate(weather.sys.sunset)}
+                </Col>
+              </Row>
+            </div>
+          )}
         </Col>
       </Row>
 

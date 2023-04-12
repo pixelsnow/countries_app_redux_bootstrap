@@ -4,35 +4,47 @@ import { Button, Row, Col } from "react-bootstrap";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { LinkContainer } from "react-router-bootstrap";
+import { initializeCountries } from "../features/countries/countriesSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Spinner } from "react-bootstrap";
 
 const Home = () => {
-  const [flags, setFlags] = useState([]);
+  const dispatch = useDispatch();
+  const countriesList = useSelector((state) => state.countries.countries);
+  const loading = useSelector((state) => state.countries.isLoading);
 
   useEffect(() => {
-    axios
-      .get("https://restcountries.com/v3.1/all")
-      .then((res) => {
-        setFlags(res.data.map((country) => country.flags.svg));
-      })
-      .catch((err) => alert(err.message));
-  }, []);
+    dispatch(initializeCountries());
+  }, [dispatch]);
 
   const auth = getAuth();
   const [user] = useAuthState(auth);
-
+  if (loading) return <Spinner animation="border" />;
   return (
     <Col>
       <Row>
         <div className="slider">
           <div className="all-flags">
-            {flags.map((flag) => (
-              <div key={flag} className="flag-container">
-                <img alt="flag" src={flag} />
+            {countriesList.map((country) => (
+              <div key={country.name.common} className="flag-container">
+                <LinkContainer
+                  className="card-link-container"
+                  to={`/countries/${country.name.common}`}
+                  state={{ country: country }}
+                >
+                  <img alt="flag" src={country.flags.svg} />
+                </LinkContainer>
               </div>
             ))}
-            {flags.map((flag) => (
-              <div key={`${flag}2`} className="flag-container">
-                <img alt="flag" src={flag} />
+            {countriesList.map((country) => (
+              <div key={`${country.name.common}2`} className="flag-container">
+                <LinkContainer
+                  className="card-link-container"
+                  to={`/countries/${country.name.common}`}
+                  state={{ country: country }}
+                >
+                  <img alt="flag" src={country.flags.svg} />
+                </LinkContainer>
               </div>
             ))}
           </div>
