@@ -57,14 +57,15 @@ const CountriesSingle = () => {
 
   const onMapLoad = (map) => {
     mapRef.current = map;
+    //if (photos.length && center) return;
 
     const requestCountry = {
-      query: country.name.official,
-      fields: ["place_id", "name", "geometry"],
+      query: country.name.common,
+      fields: ["place_id", "name"],
     };
     const requestCapital = {
-      query: country.capital[0] + ", " + country.name.official,
-      fields: ["place_id", "name", "geometry"],
+      query: country.capital[0] + ", " + country.name.common,
+      fields: ["name", "geometry"],
     };
 
     const service = new window.google.maps.places.PlacesService(map);
@@ -94,6 +95,7 @@ const CountriesSingle = () => {
           }
         );
       } else {
+        console.log("requestCountry", requestCountry);
         console.log("getting id failed, status is:", status);
       }
     });
@@ -102,6 +104,7 @@ const CountriesSingle = () => {
         console.log("RESULTS[0] for capital is ", results[0]);
         setCenter(results[0].geometry.location);
       } else {
+        console.log("requestCapital", requestCapital);
         console.log("getting id failed, status is:", status);
       }
     });

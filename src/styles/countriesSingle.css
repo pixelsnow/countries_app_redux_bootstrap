@@ -21,6 +21,9 @@
 
 .gallery {
   padding: 0;
+}
+
+.carousel {
   border-radius: 1rem;
   overflow: hidden;
 }

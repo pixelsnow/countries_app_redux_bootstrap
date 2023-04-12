@@ -3,6 +3,7 @@ import axios from "axios";
 import { Button, Row, Col } from "react-bootstrap";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
+import { LinkContainer } from "react-router-bootstrap";
 
 const Home = () => {
   const [flags, setFlags] = useState([]);
@@ -11,15 +12,10 @@ const Home = () => {
     axios
       .get("https://restcountries.com/v3.1/all")
       .then((res) => {
-        console.log("num", res.data.length);
         setFlags(res.data.map((country) => country.flags.svg));
       })
       .catch((err) => alert(err.message));
   }, []);
-
-  useEffect(() => {
-    console.log("num of flags", flags.length);
-  }, [flags]);
 
   const auth = getAuth();
   const [user] = useAuthState(auth);
@@ -30,13 +26,13 @@ const Home = () => {
         <div className="slider">
           <div className="all-flags">
             {flags.map((flag) => (
-              <div className="flag-container">
-                <img alt="flag" key={flag} src={flag} />
+              <div key={flag} className="flag-container">
+                <img alt="flag" src={flag} />
               </div>
             ))}
             {flags.map((flag) => (
-              <div className="flag-container">
-                <img alt="flag" key={flag} src={flag} />
+              <div key={`${flag}2`} className="flag-container">
+                <img alt="flag" src={flag} />
               </div>
             ))}
           </div>
@@ -53,8 +49,12 @@ const Home = () => {
             <div className="call-to-action">
               <h3>Please login or sign up to browse countries</h3>
               <div className="buttons">
-                <Button variant="custom">Log in</Button>
-                <Button variant="custom">Sign up</Button>
+                <LinkContainer to="/login">
+                  <Button variant="custom">Log in</Button>
+                </LinkContainer>
+                <LinkContainer to="/register">
+                  <Button variant="custom">Sign up</Button>
+                </LinkContainer>
               </div>
             </div>
           )}
