@@ -114,7 +114,6 @@ const CountriesSingle = () => {
 
     const service = new window.google.maps.places.PlacesService(map);
     service.findPlaceFromQuery(requestCapital, (results, status) => {
-      console.log(requestCapital.query, results, status);
       let result;
       if (results)
         result = results.find(
@@ -130,7 +129,6 @@ const CountriesSingle = () => {
         setCenter(result.geometry.location);
       } else {
         service.findPlaceFromQuery(requestCountry, (results, status) => {
-          console.log(requestCountry.query, results, status);
           let result2;
           if (results)
             result2 = results.find(
