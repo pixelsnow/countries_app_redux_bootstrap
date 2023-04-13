@@ -63,6 +63,7 @@ const CountriesSingle = () => {
     dispatch(setFavourites(newList));
   };
 
+  // helper function to fetch photos from Google Places Service
   const fetchPhotos = (map, request) => {
     const service = new window.google.maps.places.PlacesService(map);
     service.findPlaceFromQuery(request, (results, status) => {
@@ -102,10 +103,9 @@ const CountriesSingle = () => {
       query: country.name.official,
       fields: ["place_id", "name", "types"],
     };
+    const conditionalCapital = country.capital ? country.capital[0] + ", " : "";
     const requestCapital = {
-      query: country.capital
-        ? country.capital[0] + ", "
-        : "" + country.name.common,
+      query: conditionalCapital + country.name.common,
       fields: ["name", "geometry", "types"],
     };
 
@@ -114,6 +114,7 @@ const CountriesSingle = () => {
 
     const service = new window.google.maps.places.PlacesService(map);
     service.findPlaceFromQuery(requestCapital, (results, status) => {
+      console.log(requestCapital.query, results, status);
       let result;
       if (results)
         result = results.find(
@@ -129,6 +130,7 @@ const CountriesSingle = () => {
         setCenter(result.geometry.location);
       } else {
         service.findPlaceFromQuery(requestCountry, (results, status) => {
+          console.log(requestCountry.query, results, status);
           let result2;
           if (results)
             result2 = results.find(
