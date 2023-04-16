@@ -89,6 +89,7 @@ const Home = () => {
                   <Button variant="custom">Sign up</Button>
                 </LinkContainer>
               </div>
+              <div>Сredentials for testing are provided on the Log in page</div>
             </div>
           )}
           <h2>Technologies used</h2>

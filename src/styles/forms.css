@@ -4,10 +4,11 @@
 }
 
 .form-container {
-  max-width: 500px;
+  margin-top: 2rem;
+  max-width: 400px;
   background-color: white;
   border-radius: 1rem;
-  padding: 2rem;
+  padding: 2rem 2rem 1rem;
   text-align: center;
 }
 
@@ -18,6 +19,25 @@
   margin: 2rem 0;
 }
 
+.form-control {
+  border-radius: 100rem;
+  border: 1px solid black;
+  min-width: 20rem;
+}
+
 .form input {
   border: 1px solid black;
+}
+
+.test-credentials {
+  background-color: rgb(236, 236, 236);
+  padding: 1rem;
+  border: 1px solid black;
+  border-radius: 1rem;
+  margin: 1rem 0 1.5rem;
+  text-align: left;
+}
+
+.test-credentials span {
+  font-weight: 600;
 }

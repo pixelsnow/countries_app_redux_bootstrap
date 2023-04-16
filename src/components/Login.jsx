@@ -54,8 +54,21 @@ const Login = () => {
             Log in
           </Button>
         </Form>
+        <div className="test-credentials">
+          <p>Feel free to use the following credentials for testing:</p>
+          <ul>
+            <li>
+              <span>Email:</span> tester@test.com
+            </li>
+            <li>
+              <span>Password:</span> test1234
+            </li>
+          </ul>
+        </div>
         <div>
-          Don't have an account? <Link to="/register">Sign up</Link> now.
+          <p>
+            Don't have an account? <Link to="/register">Sign up</Link> now.
+          </p>
         </div>
       </div>
     </div>
