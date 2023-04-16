@@ -22,5 +22,5 @@ A simple React application that allows you to explore the world. Allows the user
 
 ## Tester account
 
-tester2@test.com
+tester@test.com
 test1234
